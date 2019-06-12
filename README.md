@@ -8,3 +8,11 @@ At the moment Python Dash is used as a web application and connected database mi
 
 # Graphs
 ![alt text](/docs/initial_idea.png)
+
+# Owners
+
+**Project title**
+Dash web application for tracking persons weight loss/gain and correlative calories.
+
+**Authors**
+Markus Heikkinen
