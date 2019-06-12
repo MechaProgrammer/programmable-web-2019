@@ -1,0 +1,7 @@
+@startuml
+User -> API: GET, POST, PUT etc. data
+User <-- API: 200, 400, ok
+API -> Database: INSERT, CREATE, DELETE etc.
+API <-- Database: ok ok
+User <- API: data
+
