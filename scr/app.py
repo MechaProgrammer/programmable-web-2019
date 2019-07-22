@@ -5,11 +5,11 @@ from flask_restplus import Resource, Api, Namespace, fields
 from flask_sqlalchemy import SQLAlchemy
 from models.models import create_app, db
 from models import api, blueprint
+from models.users.usermodels import users
 
 
 app = create_app()
 
-from models.users.usermodels import users
 api.add_namespace(users)
 app.register_blueprint(blueprint)
 app.app_context().push()
