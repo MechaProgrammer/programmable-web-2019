@@ -8,13 +8,14 @@ from models import api, blueprint
 from models.users.usermodels import users
 
 
-app = create_app()
-
-api.add_namespace(users)
-app.register_blueprint(blueprint)
-app.app_context().push()
+def run():
+    app = create_app()
+    api.add_namespace(users, path='/users')
+    app.register_blueprint(blueprint)
+    app.app_context().push()
+    db.create_all()
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    run()
