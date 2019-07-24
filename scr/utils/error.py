@@ -19,9 +19,20 @@ def create_error_response(status_code, title, message):
 
 error_model = api.model(
     'Error model',
-    {
-        'url': fields.String(example='/api/users/<user>/'),
-        'error': fields.String(example='Not found'),
-        'message': fields.String(example='User: <user> was not found'),
-    }
+        {
+            'url': fields.String(example='/api/users/<user>/'),
+            'error': fields.String(example='Not found'),
+            'message': fields.String(example='User: <user> was not found'),
+        }
 )
+
+
+def create_error_model(**kwargs):
+    modeli = {}
+    for args in kwargs:
+        modeli[args] = fields.String(example=kwargs[args])
+    error_model = api.model(
+        'Error model',
+            modeli
+    )
+    return error_model

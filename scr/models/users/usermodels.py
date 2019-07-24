@@ -1,9 +1,9 @@
 from flask import Blueprint, request, Response, url_for
-from flask_restplus import Resource, Api, Namespace, fields
+from flask_restplus import Resource, Api, Namespace, fields, reqparse
 import json
 from models.models import db
 from models import api, blueprint
-from utils.error import create_error_response, error_model
+from utils.error import create_error_response, error_model, create_error_model
 
 
 users = Namespace(name='Users', description='User controls')
@@ -24,8 +24,8 @@ class UserItem(db.Model):
 
 @users.route('/<string:user>/')
 @users.param('user', 'Account user')
-@api.response(404, 'Not found', error_model)
 class User(Resource):
+    @users.response(404, description='Not found', model=create_error_model(url='/api/users/<user>/', error="Not found", message='User: <user> was not found'))
     def get(self, user):
         db_user = UserItem.query.filter_by(user=user).first()
         if db_user is None:
