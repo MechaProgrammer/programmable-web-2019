@@ -4,7 +4,9 @@ from flask import Flask, Blueprint, request, Response
 from flask_restplus import Resource, Api, Namespace
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
+
 
 def create_app():
     app = Flask(__name__)

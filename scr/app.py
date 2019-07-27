@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models.models import create_app, db
 from models import api, blueprint
 from models.users.usermodels import users
+from gevent.pywsgi import WSGIServer
 
 
 def run():
@@ -15,6 +16,8 @@ def run():
     app.app_context().push()
     db.create_all()
     app.run(debug=True)
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
 
 
 if __name__ == '__main__':

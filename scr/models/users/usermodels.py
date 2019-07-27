@@ -1,9 +1,10 @@
-from flask import Blueprint, request, Response, url_for
+from flask import Blueprint, request, Response, url_for, abort
 from flask_restplus import Resource, Api, Namespace, fields, reqparse
 import json
 from models.models import db
 from models import api, blueprint
 from utils.error import create_error_response, error_model, create_error_model
+from sqlalchemy.exc import IntegrityError
 
 
 users = Namespace(name='Users', description='User controls')
@@ -38,17 +39,21 @@ class User(Resource):
 
 
 @users.route('/')
-@api.response(201, 'Created', headers={"self": '/api/users/<user>/'})
+@users.response(201, 'Created', headers={"self": '/api/users/<user>/'})
 class User1(Resource):
+    @users.response(409, description='User already exists', model=create_error_model(url='/api/users/', error="Already exists", message='User already exists', self='/api/users/<user>/'))
     @users.expect(user_model)
     def post(self):
+        uri = api.url_for(User, user=request.json['user'])
         user = UserItem(
             user=request.json['user'],
             balance=request.json['balance']
         )
-        db.session.add(user)
-        db.session.commit()
-        uri = api.url_for(User, user=request.json['user'])
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except IntegrityError:
+            return create_error_response(409, "Already exists", f'User: {request.json["user"]} already exists', self=uri)
         return Response(
             status=201,
             mimetype=MIMETYPE,

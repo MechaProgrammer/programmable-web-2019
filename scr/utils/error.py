@@ -1,19 +1,22 @@
-from flask import request, Response
+from flask import request, Response, jsonify, current_app
 import json
 from models import api
 from flask_restplus import fields
+from sqlalchemy.exc import IntegrityError
 
 
 MIMETYPE = "application/json"
 
 
-def create_error_response(status_code, title, message):
+def create_error_response(status_code, title, message, **kwargs):
     resource_url = request.path
     resp = dict(
         url=resource_url,
         error=title,
         message=message
     )
+    for i in kwargs:
+        resp[i] = kwargs[i]
     return Response(json.dumps(resp), status_code, mimetype=MIMETYPE)
 
 
@@ -36,3 +39,19 @@ def create_error_model(**kwargs):
             modeli
     )
     return error_model
+
+
+# @api.errorhandler(Exception)
+# @api.marshal_with(error_model, code=404)
+# def handle(error):
+#     return {'message': 'lol'}, 404
+
+
+# @api.errorhandler(IntegrityError)
+# @api.marshal_with(error_model, code=409)
+# def handle(error):
+#     return {
+#             'url': '/api/users/',
+#             'error': 'Already exists',
+#             'message': 'User exists'
+#         }, 409
