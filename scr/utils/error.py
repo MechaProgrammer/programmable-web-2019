@@ -29,6 +29,18 @@ error_model = api.model(
         }
 )
 
+# error_model = api.schema_model(
+#     'Error model',
+#         {
+#             'properties': {
+#                 'url': {
+#                     'type': 'string'
+#                 },
+#             },
+#             'type': 'object'
+#         },
+# )
+
 
 def create_error_model(**kwargs):
     modeli = {}
@@ -39,19 +51,3 @@ def create_error_model(**kwargs):
             modeli
     )
     return error_model
-
-
-# @api.errorhandler(Exception)
-# @api.marshal_with(error_model, code=404)
-# def handle(error):
-#     return {'message': 'lol'}, 404
-
-
-# @api.errorhandler(IntegrityError)
-# @api.marshal_with(error_model, code=409)
-# def handle(error):
-#     return {
-#             'url': '/api/users/',
-#             'error': 'Already exists',
-#             'message': 'User exists'
-#         }, 409
