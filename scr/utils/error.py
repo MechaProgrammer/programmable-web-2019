@@ -29,25 +29,13 @@ error_model = api.model(
         }
 )
 
-# error_model = api.schema_model(
-#     'Error model',
-#         {
-#             'properties': {
-#                 'url': {
-#                     'type': 'string'
-#                 },
-#             },
-#             'type': 'object'
-#         },
-# )
 
-
-def create_error_model(**kwargs):
+def create_error_model(model_name, **kwargs):
     modeli = {}
     for args in kwargs:
         modeli[args] = fields.String(example=kwargs[args])
     error_model = api.model(
-        'Error model',
+        model_name,
             modeli
     )
     return error_model
