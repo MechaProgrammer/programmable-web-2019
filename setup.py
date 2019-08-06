@@ -38,7 +38,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'tracker = scr.app:run'
+            'tracker=scr.app:main'
         ]
     },
     install_requires=requirements
