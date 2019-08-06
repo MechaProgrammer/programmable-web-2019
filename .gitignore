@@ -12,3 +12,11 @@ dist/*
 scr.*
 test_venv2/
 Spending_tracker_OTA.egg-info/
+
+# Packaging
+
+*.egg-info/
+
+# Database
+
+development.db
