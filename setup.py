@@ -12,7 +12,7 @@ requirements = [
 
 ]
 setuptools.setup(
-    name="Spending tracker",
+    name="scr",
     version="0.0.1",
     author="Markus",
     author_email="ruutmies@gitmail.com",
