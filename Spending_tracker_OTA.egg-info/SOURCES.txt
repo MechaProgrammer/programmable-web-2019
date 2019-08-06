@@ -1,0 +1,12 @@
+README.md
+setup.py
+Spending_tracker_OTA.egg-info/PKG-INFO
+Spending_tracker_OTA.egg-info/SOURCES.txt
+Spending_tracker_OTA.egg-info/dependency_links.txt
+Spending_tracker_OTA.egg-info/top_level.txt
+scr/__init__.py
+scr/app.py
+scr/models/__init__.py
+scr/models/models.py
+scr/models/users/__init__.py
+scr/models/users/usermodels.py
