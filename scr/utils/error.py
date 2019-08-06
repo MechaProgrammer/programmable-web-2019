@@ -1,6 +1,6 @@
 from flask import request, Response, jsonify, current_app
 import json
-from models import api
+from scr.models import api
 from flask_restplus import fields
 from sqlalchemy.exc import IntegrityError
 

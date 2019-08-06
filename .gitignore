@@ -3,3 +3,12 @@
 __pycache__/
 project_venv/
 .vscode
+
+# fragments
+
+*.txt
+build/
+dist/*
+scr.*
+test_venv2/
+Spending_tracker_OTA.egg-info/
