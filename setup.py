@@ -12,7 +12,7 @@ requirements = [
 
 ]
 setuptools.setup(
-    name="scr",
+    name="Funny app",
     version="0.0.1",
     author="Markus",
     author_email="ruutmies@gitmail.com",
@@ -21,7 +21,8 @@ setuptools.setup(
     url="https://github.com/Ruutimies/programmable-web-2019",
     include_package_data=True,
     keywords='scr',
-    packages=setuptools.find_packages(include=['scr.*']),
+    #packages=setuptools.find_packages(include=['scr.*']),
+    packages=setuptools.find_packages(),
     # packages=setuptools.find_packages(
     #     include=[
     #         'scr',
@@ -38,7 +39,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'tracker=scr.app:main'
+            'tracker=scr.app:run'
         ]
     },
     install_requires=requirements
