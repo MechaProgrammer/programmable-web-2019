@@ -5,8 +5,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 requirements = [
-    'click=7.0',
-    'Flask=1.1.1',
+    'click==7.0',
+    'Flask>=1.1.1',
     'flask-restplus>=0.12.1',
     'flask_sqlalchemy>=2.4.0',
 
