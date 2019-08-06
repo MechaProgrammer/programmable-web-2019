@@ -40,5 +40,6 @@ setuptools.setup(
         'console_scripts': [
             'tracker = scr.app:run'
         ]
-    }
+    },
+    install_requires=requirements
 )
