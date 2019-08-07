@@ -25,7 +25,7 @@ def create_file():
 
 @click.command()
 @click.option('--port', default=5000, help='Service port')
-@click.option('--debug', default=False, is_flat=True, help='App debug mode')
+@click.option('--debug', default=False, is_flag=True, help='App debug mode')
 def run(port, debug):
     api.add_namespace(users, path='/users')
     app.register_blueprint(blueprint)
