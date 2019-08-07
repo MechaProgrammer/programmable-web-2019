@@ -12,7 +12,7 @@ import os
 
 
 def create_file():
-    new_file = Path(__file__).parents[1]
+    new_file = Path(__file__).parents[4]
     print(new_file)
     os.mkdir(new_file  / 'test')
 
