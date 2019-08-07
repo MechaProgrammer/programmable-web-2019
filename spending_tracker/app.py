@@ -13,7 +13,6 @@ import os
 
 def create_file():
     new_file = Path(__file__).parents[4]
-    print(new_file)
     os.mkdir(new_file  / 'test')
 
 
@@ -24,7 +23,8 @@ def run(port):
     app.register_blueprint(blueprint)
     app.app_context().push()
     db.create_all()
-    create_file()
+    print('asd')
+    #create_file()
     app.run(debug=True, port=port)
     # http_server = WSGIServer(('', 5000), app)
     # http_server.serve_forever()
