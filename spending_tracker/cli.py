@@ -26,7 +26,7 @@ def create_config():
     config_path = Path(__file__).parents[4]
     introduction = dict(setting='this', betting='foo')
     with open(config_path / 'settings.json', 'w') as f:
-        json.dump(instroduction, f, indent=2)
+        json.dump(introduction, f, indent=2)
 
 
 @click.command()
