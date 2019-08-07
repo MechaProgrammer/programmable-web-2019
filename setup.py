@@ -13,7 +13,7 @@ requirements = [
 ]
 setuptools.setup(
     name="Spending-tracker",
-    version="0.0.2",
+    version="0.0.3",
     author="Markus",
     author_email="ruutmies@gitmail.com",
     description="API for your spending tracking needs",
