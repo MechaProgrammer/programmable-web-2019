@@ -32,4 +32,5 @@ def run(port, debug):
     app.app_context().push()
     db.create_all()
     create_file()
+    print(os.path.dirname(os.path.realpath(__file__)))
     app.run(debug=debug, port=port)
