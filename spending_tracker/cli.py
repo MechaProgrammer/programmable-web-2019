@@ -12,11 +12,15 @@ import os
 
 def create_file():
     new_file = Path(__file__).parents[4]
-    folder_name = new_file / 'testfolder'
+    folder_name = new_file / 'Results'
+    folder_name1 = new_file / 'Data'
     if folder_name.exists():
         return
+    if folder_name1.exists():
+        return
     else:
-        os.mkdir(new_file  / 'testfolder')
+        os.mkdir(folder_name)
+        os.mkdir(folder_name1)
 
 
 @click.command()
