@@ -11,6 +11,8 @@ requirements = [
     'flask_sqlalchemy>=2.4.0',
 
 ]
+
+
 setuptools.setup(
     name="Spending-tracker",
     version="0.0.4",
