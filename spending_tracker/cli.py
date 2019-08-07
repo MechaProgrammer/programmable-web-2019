@@ -8,7 +8,6 @@ from spending_tracker.models import api, blueprint
 from spending_tracker.models.users.usermodels import users
 from pathlib import Path
 import os
-#from gevent.pywsgi import WSGIServer
 
 
 def create_file():
@@ -22,16 +21,11 @@ def create_file():
 
 @click.command()
 @click.option('--port', default=5000, help='Service port')
-def run(port):
+@click.option('--debug', default=False, is_flat=True, help='App debug mode')
+def run(port, debug):
     api.add_namespace(users, path='/users')
     app.register_blueprint(blueprint)
     app.app_context().push()
     db.create_all()
     create_file()
-    app.run(debug=False, port=port)
-    # http_server = WSGIServer(('', 5000), app)
-    # http_server.serve_forever()
-
-
-#if __name__ == '__main__':
-    #run()
+    app.run(debug=debug, port=port)
