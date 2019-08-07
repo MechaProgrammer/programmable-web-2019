@@ -1,9 +1,9 @@
 from flask import Blueprint, request, Response, url_for, abort
 from flask_restplus import Resource, Api, fields, Namespace, reqparse, Model
 import json
-from scr.models.models import db
-from scr.models import api, blueprint
-from scr.utils.error import create_error_response, error_model, create_error_model
+from spending_tracker.models.models import db
+from spending_tracker.models import api, blueprint
+from spending_tracker.utils.error import create_error_response, error_model, create_error_model
 from sqlalchemy.exc import IntegrityError
 
 

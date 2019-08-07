@@ -12,26 +12,15 @@ requirements = [
 
 ]
 setuptools.setup(
-    name="Funny app",
+    name="Spending-tracker",
     version="0.0.1",
     author="Markus",
     author_email="ruutmies@gitmail.com",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
+    description="API for your spending tracking needs",
     url="https://github.com/Ruutimies/programmable-web-2019",
     include_package_data=True,
     keywords='scr',
-    #packages=setuptools.find_packages(include=['scr.*']),
     packages=setuptools.find_packages(),
-    # packages=setuptools.find_packages(
-    #     include=[
-    #         'scr',
-    #         'scr.models',
-    #         'scr.models.models'
-    #         'scr.models.users'
-    #         'scr.utils'
-    #     ]
-    # ),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -39,7 +28,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'tracker=scr.app:run'
+            'tracker=spending_tracker.app:run'
         ]
     },
     install_requires=requirements
