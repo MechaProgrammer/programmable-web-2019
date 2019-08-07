@@ -13,7 +13,11 @@ import os
 
 def create_file():
     new_file = Path(__file__).parents[4]
-    os.mkdir(new_file  / 'test')
+    folder_name = new_file / 'testfolder'
+    if folder_name.exists():
+        return
+    else:
+        os.mkdir(new_file  / 'testfolder')
 
 
 @click.command()
@@ -23,9 +27,8 @@ def run(port):
     app.register_blueprint(blueprint)
     app.app_context().push()
     db.create_all()
-    print('asd')
-    #create_file()
-    app.run(debug=True, port=port)
+    create_file()
+    app.run(debug=False, port=port)
     # http_server = WSGIServer(('', 5000), app)
     # http_server.serve_forever()
 

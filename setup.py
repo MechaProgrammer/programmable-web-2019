@@ -28,7 +28,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'tracker=spending_tracker.app:run'
+            'tracker=spending_tracker.cli:run'
         ]
     },
     install_requires=requirements
