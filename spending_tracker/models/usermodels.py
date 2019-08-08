@@ -57,13 +57,17 @@ class User(Resource):
             return create_error_response(404, "Not found", f'User: {user} was not found')
         resp = {
             'user': db_user.user,
-            'balance': db_user.balance
+            'balance': db_user.balance,
+            'links': {
+                'self': api.url_for(User, user=user),
+                'collection': api.url_for(UserCollection)
+            }
         }
         return Response(json.dumps(resp), 200, mimetype=MIMETYPE)
 
 
 @users.route('/')
-class User1(Resource):
+class UserCollection(Resource):
     @users.response(201, 'Created', headers={'Location': '/api/users/<user>/'})
     @users.response(
         409,
