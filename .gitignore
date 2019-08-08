@@ -4,6 +4,12 @@ __pycache__/
 project_venv/
 .vscode
 
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/programmable_web2019.iml
+.idea/vcs.xml
+
 # fragments
 
 *.txt

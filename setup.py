@@ -21,7 +21,7 @@ setuptools.setup(
     description="API for your spending tracking needs",
     url="https://github.com/Ruutimies/programmable-web-2019",
     include_package_data=True,
-    keywords='scr',
+    keywords='spending-tracker',
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
