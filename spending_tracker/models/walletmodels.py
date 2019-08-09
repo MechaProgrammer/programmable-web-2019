@@ -4,10 +4,7 @@ import json
 from spending_tracker import db
 from spending_tracker import api
 from spending_tracker.db_models.db_models import Wallet, UserItem
-from spending_tracker.models.usermodels import User
-# from spending_tracker.models.categorymodels import Category
-from spending_tracker.models.errormodels import create_error_response, create_error_model
-from sqlalchemy.exc import IntegrityError
+from spending_tracker.utils.money_handler import money_add
 
 
 single_user = Namespace(name='User', description='Single user controls')
@@ -16,38 +13,24 @@ single_user = Namespace(name='User', description='Single user controls')
 MIMETYPE = "application/vnd.collection+json"
 
 
-# class Wallet(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey("user_item.id"))
-#     #category = db.Column(db.String, nullable=False)
-#     value = db.Column(db.Integer, unique=True, nullable=False)
-#
-#     #user = db.relationship("user_item", back_populates='wallet')
-#     category = db.relationship("Category", back_populates='wallet')
-#     # travel = db.relationship('Travel', back_populates="Wallet")
-#
-#     @staticmethod
-#     def get_schema():
-#         wallet_model = api.model('Wallet', {
-#             'category': fields.Nested(Category.get_schema()),
-#         })
-#         return wallet_model
-
-
-@single_user.route(f'/<string:user>/wallet/')
+@single_user.route(f'/<string:user>/money/')
 class WalletItem(Resource):
+    @single_user.doc(description='Add money')
     @single_user.expect(Wallet.get_schema())
     def post(self, user):
+        uri = api.url_for(WalletItem, user=user)
         db_user = UserItem.query.filter_by(user=user).first()
-        #uri = api.url_for(Wallet)
-        uri = 'asd'
-        walletti = Wallet(
-            user=db_user.id,
-            money=request.json['money']
-            #category=request.json['category'],
-            #amount=request.json['amount']
-        )
-        db.session.add(walletti)
+        if db_user.wallets:
+            db_user.wallets[0].money = money_add(
+                db_user.wallets[0].money,
+                request.json['money']
+            )
+        else:
+            walletti = Wallet(
+                user=db_user.id,
+                money=request.json['money']
+            )
+            db.session.add(walletti)
         db.session.commit()
         return Response(
             status=201,
@@ -56,10 +39,10 @@ class WalletItem(Resource):
 
     def get(self, user):
         user_name = UserItem.query.filter_by(user=user).first()
-        print(user_name)
+        user_wallet = user_name.wallets
         resp = dict(
             user=user_name.user,
-            wallet=Wallet.query.filter_by(user=user_name.id).first().money
+            wallet=user_wallet[0].money
         )
         return Response(
             json.dumps(resp), 200

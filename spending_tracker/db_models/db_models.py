@@ -7,7 +7,6 @@ class UserItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, unique=True, nullable=False)
     balance = db.Column(db.Float, nullable=False)
-    #wallet_id = db.Column(db.Integer, db.ForeignKey("wallet.id"))
 
     wallets = db.relationship("Wallet", back_populates='user_item')
 
@@ -22,7 +21,7 @@ class UserItem(db.Model):
 
 class Wallet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.Integer, db.ForeignKey("user_item.id"))
+    user = db.Column(db.Integer, db.ForeignKey("user_item.id"), unique=True)
     money = db.Column(db.Integer, nullable=False)
     #user_id = db.Column(db.Integer, db.ForeignKey("user_item.id"))
     #category = db.Column(db.String, nullable=False)
