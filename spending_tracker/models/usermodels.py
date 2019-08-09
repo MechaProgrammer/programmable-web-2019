@@ -6,6 +6,8 @@ from spending_tracker import api
 from spending_tracker.models.errormodels import create_error_response, create_error_model
 from sqlalchemy.exc import IntegrityError
 from spending_tracker.db_models.db_models import UserItem
+from spending_tracker.models.walletmodels import WalletItem
+from spending_tracker.models.categorymodels import CategoryCollection
 
 
 users = Namespace(name='Users', description='User controls')
@@ -86,3 +88,15 @@ class UserCollection(Resource):
             status=201,
             mimetype=MIMETYPE,
             headers={'self': f'{uri}'})
+
+    def get(self):
+        users = {}
+        for user in UserItem.query.all():
+            users[user.user] = {
+                "self": api.url_for(User, user=user.user),
+                "wallet": api.url_for(WalletItem, user=user.user),
+                "categories": api.url_for(CategoryCollection, user=user.user)
+            }
+        return Response(json.dumps(users, indent=4), 200)
+
+
