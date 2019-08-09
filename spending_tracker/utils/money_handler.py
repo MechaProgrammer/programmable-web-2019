@@ -1,4 +1,4 @@
-# https://github.com/vimeo/py-money
+"""https://github.com/vimeo/py-money"""
 from money.money import Money
 from money.currency import Currency
 

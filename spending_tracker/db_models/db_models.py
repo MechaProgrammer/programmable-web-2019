@@ -3,12 +3,20 @@ from flask_restplus import Resource, fields, Namespace
 from spending_tracker import api
 
 
+user_category = db.Table(
+    "associnations",
+    db.Column("category_id", db.Integer, db.ForeignKey('category.id'), primary_key=True),
+    db.Column("wallet_id", db.Integer, db.ForeignKey('wallet.id'), primary_key=True),
+ )
+
+
 class UserItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, unique=True, nullable=False)
     balance = db.Column(db.Float, nullable=False)
 
     wallets = db.relationship("Wallet", back_populates='user_item')
+    #categories = db.relationship("Category", secondary='associnations', back_populates='user_item')
 
     @staticmethod
     def get_schema():
@@ -21,20 +29,15 @@ class UserItem(db.Model):
 
 class Wallet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.Integer, db.ForeignKey("user_item.id"), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user_item.id"), unique=True)
     money = db.Column(db.Integer, nullable=False)
-    #user_id = db.Column(db.Integer, db.ForeignKey("user_item.id"))
-    #category = db.Column(db.String, nullable=False)
-    # value = db.Column(db.Integer, unique=True, nullable=False)
 
+    categories = db.relationship("Category", secondary='associnations', back_populates='wallet')
     user_item = db.relationship("UserItem", back_populates='wallets')
-    #category = db.relationship("Category", back_populates='wallet')
-    # travel = db.relationship('Travel', back_populates="Wallet")
 
     @staticmethod
     def get_schema():
         wallet_model = api.model('Wallet', {
-            #'category': fields.Nested(Category.get_schema()),
             "money": fields.Integer()
         })
         return wallet_model
@@ -42,15 +45,16 @@ class Wallet(db.Model):
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    travel = db.Column(db.Float, unique=True, nullable=False)
+    wallet_id = db.Column(db.Integer, db.ForeignKey("wallet.id"))
+    travel = db.Column(db.Float, unique=True, nullable=True)
+    entertainment = db.Column(db.Float, unique=True, nullable=True)
+    eating_out = db.Column(db.Float, unique=True, nullable=True)
+    house = db.Column(db.Float, unique=True, nullable=True)
+    bills = db.Column(db.Float, unique=True, nullable=True)
+    food = db.Column(db.Float, unique=True, nullable=True)
 
-    #wallet = db.relationship('Wallet', back_populates="category")
+    wallet = db.relationship('Wallet', secondary='associnations', back_populates="categories")
 
-    # entertainment = db.Column(db.Float, unique=True, nullable=False)
-    # eating_out = db.Column(db.Float, unique=True, nullable=False)
-    # house = db.Column(db.Float, unique=True, nullable=False)
-    # bills = db.Column(db.Float, unique=True, nullable=False)
-    # food = db.Column(db.Float, unique=True, nullable=False)
 
     @staticmethod
     def get_schema():

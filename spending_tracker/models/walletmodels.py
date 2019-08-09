@@ -15,7 +15,7 @@ MIMETYPE = "application/vnd.collection+json"
 
 @single_user.route(f'/<string:user>/money/')
 class WalletItem(Resource):
-    @single_user.doc(description='Add money')
+    @single_user.doc(description='Add money to users wallet')
     @single_user.expect(Wallet.get_schema())
     def post(self, user):
         uri = api.url_for(WalletItem, user=user)
@@ -27,7 +27,7 @@ class WalletItem(Resource):
             )
         else:
             walletti = Wallet(
-                user=db_user.id,
+                user_id=db_user.id,
                 money=request.json['money']
             )
             db.session.add(walletti)
@@ -37,6 +37,7 @@ class WalletItem(Resource):
             mimetype=MIMETYPE,
             headers={'self': f'{uri}'})
 
+    @single_user.doc(description='Get money from users wallet')
     def get(self, user):
         user_name = UserItem.query.filter_by(user=user).first()
         user_wallet = user_name.wallets
