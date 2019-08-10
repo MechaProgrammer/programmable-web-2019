@@ -3,11 +3,11 @@ from flask_restplus import Resource, fields, Namespace
 import json
 from spending_tracker import db
 from spending_tracker import api
-from spending_tracker.models.errormodels import create_error_response, create_error_model
+from spending_tracker.resources.errormodels import create_error_response, create_error_model
 from sqlalchemy.exc import IntegrityError
-from spending_tracker.db_models.db_models import UserItem
-from spending_tracker.models.walletmodels import WalletItem
-from spending_tracker.models.categorymodels import CategoryCollection
+from spending_tracker.db_models.db_models import UserModel
+from spending_tracker.resources.walletmodels import WalletItem
+from spending_tracker.resources.categorymodels import CategoryCollection
 
 
 users = Namespace(name='Users', description='User controls')
@@ -29,7 +29,7 @@ def schema_builder(ctrl_name=None, href=None):
     asd.add_control(ctrl_name, href)
     control_scheme = api.model('links', asd)
     user_schema = api.model('User schema', {
-        'properties': fields.Nested(UserItem.get_schema()),
+        'properties': fields.Nested(UserModel.get_schema()),
         'links': fields.Nested(control_scheme)
     })
     return user_schema
@@ -41,7 +41,7 @@ class User(Resource):
     @users.response(404, description='Not found', model=create_error_model('Not found', url='/api/users/<user>/', error="Not found", message='User: <user> was not found'))
     @users.response(200, description='Success', model=schema_builder('self', '/api/users/<user>/'))
     def get(self, user):
-        db_user = UserItem.query.filter_by(user=user).first()
+        db_user = UserModel.query.filter_by(user=user).first()
         if db_user is None:
             return create_error_response(404, "Not found", f'User: {user} was not found')
         resp = {
@@ -67,10 +67,10 @@ class UserCollection(Resource):
             error="Already exists",
             message='User already exists')
         )
-    @users.expect(UserItem.get_schema())
+    @users.expect(UserModel.get_schema())
     def post(self):
         uri = api.url_for(User, user=request.json['user'])
-        user = UserItem(
+        user = UserModel(
             user=request.json['user'],
             balance=request.json['balance']
         )
@@ -91,7 +91,7 @@ class UserCollection(Resource):
 
     def get(self):
         users = {}
-        for user in UserItem.query.all():
+        for user in UserModel.query.all():
             users[user.user] = {
                 "self": api.url_for(User, user=user.user),
                 "wallet": api.url_for(WalletItem, user=user.user),

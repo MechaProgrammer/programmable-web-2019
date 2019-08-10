@@ -1,8 +1,8 @@
 import click
 from spending_tracker import api, blueprint, app, db
-from spending_tracker.models.usermodels import users
-from spending_tracker.models.categorymodels import category
-from spending_tracker.models.walletmodels import single_user
+from spending_tracker.resources.usermodels import users
+from spending_tracker.resources.categorymodels import category
+from spending_tracker.resources.walletmodels import single_user
 
 
 @click.command()
