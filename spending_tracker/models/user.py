@@ -1,7 +1,6 @@
 from spending_tracker.db_models.db_models import UserModel
-from spending_tracker.resources.walletmodels import WalletItem
-from spending_tracker.resources.categorymodels import CategoryCollection
 from spending_tracker.resources.errormodels import create_error_response
+from spending_tracker import db
 
 
 class User:
@@ -18,4 +17,11 @@ class User:
     def retrive_all(self):
         return UserModel.query.all()
 
+    def create(self, payload):
+        user = UserModel(
+            user=payload['user'],
+            balance=payload['balance']
+        )
+        db.session.add(user)
+        db.session.commit()
 

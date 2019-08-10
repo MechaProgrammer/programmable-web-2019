@@ -66,13 +66,8 @@ class UserCollection(Resource):
     @users.expect(UserModel.get_schema())
     def post(self):
         uri = api.url_for(UserResource, user=request.json['user'])
-        user = UserModel(
-            user=request.json['user'],
-            balance=request.json['balance']
-        )
         try:
-            db.session.add(user)
-            db.session.commit()
+            User().create(request.json)
         except IntegrityError:
             return create_error_response(
                 409,
