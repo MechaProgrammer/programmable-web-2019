@@ -1,4 +1,4 @@
-from spending_tracker import db
+from spending_tracker.cli import db
 from flask_restplus import fields
 from spending_tracker import api
 
@@ -35,16 +35,22 @@ class WalletModel(db.Model):
     user_model = db.relationship("UserModel", back_populates='wallets')
 
     @staticmethod
-    def get_schema():
-        wallet_model = api.model('Wallet', {
-            "money": fields.Integer()
-        })
+    def get_schema(single=False):
+        if not single:
+            wallet_model = api.model('Wallet', {
+                "user": fields.String(),
+                "money": fields.Integer()
+            })
+        else:
+            wallet_model = api.model('Wallet money', {
+                "money": fields.Integer()
+            })
         return wallet_model
 
 
 class CategoryModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    wallet_id = db.Column(db.Integer, db.ForeignKey("wallet_model.id"))
+    wallet_id = db.Column(db.Integer, db.ForeignKey("wallet_model.id"), unique=True)
     travel = db.Column(db.Float, nullable=True)
     entertainment = db.Column(db.Float, nullable=True)
     eating_out = db.Column(db.Float, nullable=True)
@@ -54,8 +60,9 @@ class CategoryModel(db.Model):
 
     wallet = db.relationship('WalletModel', secondary='associnations', back_populates="categories")
 
+
     @staticmethod
-    def get_schema():
+    def get_schema(user=False):
         category_model = api.model('Category', {
             'travel': fields.Float(example=10, description='Travel expenses'),
             'entertainment': fields.Float(example=10, description='Entertainment expenses'),
@@ -64,4 +71,15 @@ class CategoryModel(db.Model):
             'bills': fields.Float(example=10, description='Bills expenses'),
             'food': fields.Float(example=10, description='Food expenses'),
         })
-        return category_model
+        if not user:
+            user_model = api.model('Category user', {
+                'user': fields.String(example='Model user'),
+                'categories': fields.Nested(category_model)
+            })
+        else:
+            user_model = api.model('Category categories', {
+                'categories': fields.Nested(category_model)
+            })
+        return user_model
+
+

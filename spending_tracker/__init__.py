@@ -4,11 +4,16 @@ from flask import Blueprint
 from flask_restplus import Api
 
 
-app = Flask("Spending-tracker")
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///development.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
-db.init_app(app)
+db = SQLAlchemy()
+
+
+def create_app():
+    app = Flask("Spending-tracker")
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///development.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['SERVER_NAME'] = 'localhost:5000'
+    db.init_app(app)
+    return app
 
 
 blueprint = Blueprint('api', __name__, url_prefix="/api")

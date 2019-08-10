@@ -1,15 +1,16 @@
-from flask import request, Response, jsonify, current_app
-import json
+from flask import request
 from spending_tracker import api
 from flask_restplus import fields, abort
-from sqlalchemy.exc import IntegrityError
 
 
 MIMETYPE = "application/json"
 
 
-def create_error_response(status_code, title, message, **kwargs):
-    resource_url = request.path
+def create_error_response(status_code, title, message, url=None, **kwargs):
+    if not url:
+        resource_url = request.path
+    else:
+        resource_url = url
     resp = dict(
         url=resource_url,
         error=title,
@@ -17,7 +18,6 @@ def create_error_response(status_code, title, message, **kwargs):
     )
     for i in kwargs:
         resp[i] = kwargs[i]
-    #return Response(json.dumps(resp), status_code, mimetype=MIMETYPE)
     abort(status_code, url=resource_url, error=title, message=message)
 
 

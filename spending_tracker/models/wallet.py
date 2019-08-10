@@ -1,6 +1,7 @@
 from spending_tracker import db
 from spending_tracker.db_models.db_models import WalletModel, UserModel
 from spending_tracker.utils.money_handler import money_add
+from spending_tracker.resources.errormodels import create_error_response
 
 
 class Wallet:
@@ -25,6 +26,8 @@ class Wallet:
 
     def balance(self):
         user_name = UserModel.query.filter_by(user=self.user).first()
+        if user_name is None:
+            create_error_response(404, title='Not found', message=f'User {user_name} was not found')
         user_wallet = user_name.wallets[0]
         resp = dict(
             user=user_name.user,
