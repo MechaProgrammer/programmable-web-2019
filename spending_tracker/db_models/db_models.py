@@ -54,7 +54,6 @@ class CategoryModel(db.Model):
 
     wallet = db.relationship('WalletModel', secondary='associnations', back_populates="categories")
 
-
     @staticmethod
     def get_schema():
         category_model = api.model('Category', {

@@ -1,7 +1,7 @@
 from flask import request, Response, jsonify, current_app
 import json
 from spending_tracker import api
-from flask_restplus import fields
+from flask_restplus import fields, abort
 from sqlalchemy.exc import IntegrityError
 
 
@@ -17,7 +17,8 @@ def create_error_response(status_code, title, message, **kwargs):
     )
     for i in kwargs:
         resp[i] = kwargs[i]
-    return Response(json.dumps(resp), status_code, mimetype=MIMETYPE)
+    #return Response(json.dumps(resp), status_code, mimetype=MIMETYPE)
+    abort(status_code, url=resource_url, error=title, message=message)
 
 
 error_model = api.model(

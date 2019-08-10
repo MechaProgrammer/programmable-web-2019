@@ -1,6 +1,7 @@
 from spending_tracker.db_models.db_models import UserModel
 from spending_tracker.db_models.db_models import CategoryModel
 from spending_tracker import db
+from spending_tracker.resources.errormodels import create_error_response
 
 
 class Category:
@@ -24,10 +25,16 @@ class Category:
 
     def get_categories(self):
         db_user = UserModel.query.filter_by(user=self.user).first()
-        user_wallet = db_user.wallets[0]
+        if db_user.wallets:
+            user_wallet = db_user.wallets[0]
+        else:
+            create_error_response(404, title='Not found', message='User has no wallet')
         categories = CategoryModel.query.filter_by(wallet_id=user_wallet.id).first()
-        resp = dict(
-            user=db_user.user,
-            categories=dict(travel=categories.travel)
-        )
-        return resp
+        if categories is not None:
+            resp = dict(
+                user=db_user.user,
+                categories=dict(travel=categories.travel)
+            )
+            return resp
+        else:
+            create_error_response(404, title='Not found', message='User wallet has no categories')

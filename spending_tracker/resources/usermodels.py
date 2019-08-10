@@ -9,44 +9,32 @@ from spending_tracker.db_models.db_models import UserModel
 from spending_tracker.resources.walletmodels import WalletItem
 from spending_tracker.resources.categorymodels import CategoryCollection
 from spending_tracker.models.user import User
+from flask import url_for
+from spending_tracker.utils.helpers import schema_builder
 
 
 users = Namespace(name='Users', description='User controls')
 
 
-class SchemeBuilder(dict):
-    def add_control(self, ctrl_name, href, **kwargs):
-        if ctrl_name not in self:
-            self[ctrl_name] = {}
-        self[ctrl_name] = kwargs
-        self[ctrl_name] = fields.Url(example=href)
-
-
 MIMETYPE = "application/json"
 
-
-def schema_builder(ctrl_name=None, href=None):
-    asd = SchemeBuilder()
-    asd.add_control(ctrl_name, href)
-    control_scheme = api.model('links', asd)
-    user_schema = api.model('User schema', {
-        'properties': fields.Nested(UserModel.get_schema()),
-        'links': fields.Nested(control_scheme)
-    })
-    return user_schema
+schema_415 = create_error_model('Unsupported media type', url='/api/users/', error="Unsupported media type",
+                                message="Requests must be JSON")
+schema_200 = schema_builder(UserModel, 'self', '/api/users/<user>/')
+schema_404 = create_error_model('Not found', url='/api/users/<user>/', error="Not found", message='User: <user> was not found')
 
 
 @users.route('/<string:user>/')
 @users.param('user', 'Account user')
 class UserResource(Resource):
-    @users.response(404, description='Not found', model=create_error_model('Not found', url='/api/users/<user>/', error="Not found", message='User: <user> was not found'))
-    @users.response(200, description='Success', model=schema_builder('self', '/api/users/<user>/'))
+    @users.response(404, description='Not found', model=schema_404)
+    @users.response(200, description='Success', model=schema_200)
     def get(self, user):
-        user = User()
-        resp = user.retrieve_user(user)
+        user_collection = User()
+        resp = user_collection.retrieve_user(user)
         resp['links'] = {
-                'self': api.url_for(UserResource, user=user),
-                'collection': api.url_for(UserCollection)
+                'self': url_for('api.Users_user_resource', user=user),
+                'collection': url_for('api.Users_user_collection')
             }
         return Response(json.dumps(resp), 200, mimetype=MIMETYPE)
 
@@ -63,9 +51,10 @@ class UserCollection(Resource):
             error="Already exists",
             message='User already exists')
         )
+    @users.response(415, description='Unsupported media type', model=schema_415)
     @users.expect(UserModel.get_schema())
     def post(self):
-        uri = api.url_for(UserResource, user=request.json['user'])
+        uri = url_for('api.Users_user_resource', user=request.json['user'])
         try:
             User().create(request.json)
         except IntegrityError:
@@ -85,9 +74,9 @@ class UserCollection(Resource):
         users_all = User().retrive_all()
         for user in users_all:
             users[user.user] = {
-                "self": api.url_for(UserResource, user=user.user),
-                "wallet": api.url_for(WalletItem, user=user.user),
-                "categories": api.url_for(CategoryCollection, user=user.user)
+                "self": url_for('api.Users_user_resource', user=user.user),
+                "wallet": url_for('api.User_wallet_item', user=user.user),
+                "categories": url_for('api.CategoryModel_category_collection', user=user.user)
             }
         return Response(json.dumps(users, indent=4), 200)
 
