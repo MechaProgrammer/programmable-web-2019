@@ -1,12 +1,10 @@
-from flask import request, Response, Blueprint
+from flask import request, Response
 from flask_restplus import Resource, fields, Namespace
 import json
 from spending_tracker import api
 from spending_tracker.resources.errormodels import create_error_response, create_error_model
 from sqlalchemy.exc import IntegrityError
 from spending_tracker.db_models.db_models import UserModel
-from spending_tracker.resources.walletmodels import WalletItem
-from spending_tracker.resources.categorymodels import CategoryCollection
 from spending_tracker.models.user import User
 from flask import url_for
 from spending_tracker.utils.helpers import schema_builder

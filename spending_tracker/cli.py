@@ -1,8 +1,5 @@
 import click
 from spending_tracker import api, blueprint, create_app, db
-# from spending_tracker.resources.usermodels import users
-# from spending_tracker.resources.categorymodels import category
-# from spending_tracker.resources.walletmodels import single_user
 
 
 @click.command()
@@ -11,7 +8,6 @@ from spending_tracker import api, blueprint, create_app, db
 def run(port, debug):
     app = create_app()
     with app.app_context():
-
         from spending_tracker.resources.usermodels import users
         from spending_tracker.resources.categorymodels import category
         from spending_tracker.resources.walletmodels import single_user

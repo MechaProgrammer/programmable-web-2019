@@ -3,10 +3,8 @@ from flask_restplus import Resource, fields, Namespace
 import json
 from spending_tracker.db_models.db_models import WalletModel
 from spending_tracker.models.wallet import Wallet
-from spending_tracker.utils.helpers import schema_builder, SchemeBuilder
 from spending_tracker.resources.errormodels import create_error_model, create_error_response
 from spending_tracker import api
-from spending_tracker.db_models.db_models import UserModel
 
 
 single_user = Namespace(name='User', description='Single user controls')

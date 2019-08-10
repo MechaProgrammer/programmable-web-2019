@@ -33,6 +33,8 @@ class Category:
 
     def get_categories(self):
         db_user = UserModel.query.filter_by(user=self.user).first()
+        if db_user is None:
+            create_error_response(404, title='Not found', message=f'User {self.user} was not found')
         if db_user.wallets:
             user_wallet = db_user.wallets[0]
         else:

@@ -1,8 +1,8 @@
 from flask import request, Response, url_for
-from flask_restplus import Resource, fields, Namespace, abort
+from flask_restplus import Resource, fields, Namespace
 import json
 from spending_tracker.db_models.db_models import CategoryModel
-from spending_tracker.resources.errormodels import create_error_response, create_error_model
+from spending_tracker.resources.errormodels import create_error_model
 from spending_tracker.models.category import Category
 from spending_tracker import api
 
@@ -47,6 +47,7 @@ class CategoryCollection(Resource):
         return Response(status=resp)
 
     @category.response(200, description='Success', model=single_user_model)
+    @category.response(404, description='Not found', model=schema_400)
     def get(self, user):
         user_categories = Category(user)
         resp = {'properties': user_categories.get_categories(), 'links': {
