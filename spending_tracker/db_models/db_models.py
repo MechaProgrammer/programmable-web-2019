@@ -45,12 +45,12 @@ class WalletModel(db.Model):
 class CategoryModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     wallet_id = db.Column(db.Integer, db.ForeignKey("wallet_model.id"))
-    travel = db.Column(db.Float, unique=True, nullable=True)
-    entertainment = db.Column(db.Float, unique=True, nullable=True)
-    eating_out = db.Column(db.Float, unique=True, nullable=True)
-    house = db.Column(db.Float, unique=True, nullable=True)
-    bills = db.Column(db.Float, unique=True, nullable=True)
-    food = db.Column(db.Float, unique=True, nullable=True)
+    travel = db.Column(db.Float, nullable=True)
+    entertainment = db.Column(db.Float, nullable=True)
+    eating_out = db.Column(db.Float, nullable=True)
+    house = db.Column(db.Float, nullable=True)
+    bills = db.Column(db.Float, nullable=True)
+    food = db.Column(db.Float, nullable=True)
 
     wallet = db.relationship('WalletModel', secondary='associnations', back_populates="categories")
 

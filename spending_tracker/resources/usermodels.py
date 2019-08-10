@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from spending_tracker.db_models.db_models import UserModel
 from spending_tracker.resources.walletmodels import WalletItem
 from spending_tracker.resources.categorymodels import CategoryCollection
+from spending_tracker.models.user import User
 
 
 users = Namespace(name='Users', description='User controls')
@@ -21,7 +22,7 @@ class SchemeBuilder(dict):
         self[ctrl_name] = fields.Url(example=href)
 
 
-MIMETYPE = "application/vnd.collection+json"
+MIMETYPE = "application/json"
 
 
 def schema_builder(ctrl_name=None, href=None):
@@ -37,21 +38,16 @@ def schema_builder(ctrl_name=None, href=None):
 
 @users.route('/<string:user>/')
 @users.param('user', 'Account user')
-class User(Resource):
+class UserResource(Resource):
     @users.response(404, description='Not found', model=create_error_model('Not found', url='/api/users/<user>/', error="Not found", message='User: <user> was not found'))
     @users.response(200, description='Success', model=schema_builder('self', '/api/users/<user>/'))
     def get(self, user):
-        db_user = UserModel.query.filter_by(user=user).first()
-        if db_user is None:
-            return create_error_response(404, "Not found", f'User: {user} was not found')
-        resp = {
-            'user': db_user.user,
-            'balance': db_user.balance,
-            'links': {
-                'self': api.url_for(User, user=user),
+        user = User()
+        resp = user.retrieve_user(user)
+        resp['links'] = {
+                'self': api.url_for(UserResource, user=user),
                 'collection': api.url_for(UserCollection)
             }
-        }
         return Response(json.dumps(resp), 200, mimetype=MIMETYPE)
 
 
@@ -69,7 +65,7 @@ class UserCollection(Resource):
         )
     @users.expect(UserModel.get_schema())
     def post(self):
-        uri = api.url_for(User, user=request.json['user'])
+        uri = api.url_for(UserResource, user=request.json['user'])
         user = UserModel(
             user=request.json['user'],
             balance=request.json['balance']
@@ -91,9 +87,10 @@ class UserCollection(Resource):
 
     def get(self):
         users = {}
-        for user in UserModel.query.all():
+        users_all = User().retrive_all()
+        for user in users_all:
             users[user.user] = {
-                "self": api.url_for(User, user=user.user),
+                "self": api.url_for(UserResource, user=user.user),
                 "wallet": api.url_for(WalletItem, user=user.user),
                 "categories": api.url_for(CategoryCollection, user=user.user)
             }

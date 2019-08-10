@@ -2,6 +2,8 @@
 *.pyo
 __pycache__/
 project_venv/
+tracker_venv/
+test_venv2/
 .vscode
 
 .idea/inspectionProfiles/profiles_settings.xml
@@ -15,7 +17,6 @@ project_venv/
 *.txt
 build/
 dist/*
-test_venv2/
 Spending_tracker_OTA.egg-info/
 
 # Packaging

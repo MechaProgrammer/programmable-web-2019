@@ -9,7 +9,8 @@ requirements = [
     'Flask>=1.1.1',
     'flask-restplus>=0.12.1',
     'flask_sqlalchemy>=2.4.0',
-    'py-money==0.4.0'
+    'py-money==0.4.0',
+    'requests==2.22.0'
 ]
 
 
