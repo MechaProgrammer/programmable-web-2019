@@ -6,6 +6,9 @@ tracker_venv/
 test_venv2/
 .vscode
 
+# pycharm files
+
+.idea/
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/misc.xml
 .idea/modules.xml
