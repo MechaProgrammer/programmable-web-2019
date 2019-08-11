@@ -1,0 +1,24 @@
+@startuml
+database "SQL" {
+  object User {
+	id
+	user
+	balance
+  }
+  object Categories {
+	id
+	wallet_id
+	travel
+	entertainment
+	eating_out
+	house
+	bills
+	food
+  }
+  object Wallet {
+    id
+    user_id
+    money
+  }
+}
+@enduml
