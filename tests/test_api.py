@@ -87,3 +87,20 @@ def test_post_user(test_client):
     rv = test_client.post('/api/users/', json=user)
     assert rv.status_code == 201
     assert rv.headers['Location'] == 'http://testing.com/api/users/tester/'
+
+
+def test_user_add_money(test_client):
+    u = UserModel(user='tester', balance=12)
+    db.session.add(u)
+    db.session.commit()
+    payload = {'money': 123}
+    rv = test_client.post('/api/user/tester/money/', json=payload)
+    assert rv.status_code == 201
+
+
+def test_user_add_money_fail(test_client):
+    payload = {'money': 123}
+    rv = test_client.post('/api/user/tester/money/', json=payload)
+    assert rv.status_code == 404
+
+

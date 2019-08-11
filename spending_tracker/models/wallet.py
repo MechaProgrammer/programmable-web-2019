@@ -10,6 +10,8 @@ class Wallet:
 
     def add_money(self, money):
         db_user = UserModel.query.filter_by(user=self.user).first()
+        if db_user is None:
+            create_error_response(404, title='Not found', message=f'User {self.user} was not found')
         if db_user.wallets:
             db_user.wallets[0].money = money_add(
                 db_user.wallets[0].money,

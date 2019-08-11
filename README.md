@@ -1,32 +1,65 @@
-# programmable-web-2019
-REST API project repository for the course Programmable web summer course 2019
+# Programmable-Web-2019
+REST API project repository for the course Programmable Web Summer Course 2019
 
 # Initial idea
 
-A Python program to save user weight and calories and calculate trends based on that data.
-At the moment Python Dash is used as a web application and connected database might be mySQL.
+A Python program to make a database to track users spending.
+User can manage database with Flask API.
 
-# Graphs
-![alt text](/docs/initial_idea.png)
-
-# Owners
+# Project
 
 **Project title**
-Dash web application for tracking persons weight loss/gain and correlative calories.
+Spending Tracker
 
 **Authors**
-Markus Heikkinen
+Markus H
 
 
-* Run Flake8 to check errors
+Instructions
+------------
 
+# Installation
+
+Make virtual environment
+
+Windows
+
+```
+$ python -m pip venv tracker_venv
+```
+
+Linux
+
+```
+$ virtualenv tracker_venv
+```
+
+
+Install project from git
+
+```
+$ pip install git+https://github.com/Ruutimies/programmable-web-2019.git
+```
+
+# Running the Spending Tracker
+
+```
+$ tracker --help
+```
+
+Run Flake8 to check errors
+
+```
 python setup.py flake8
+```
 
-* Run tests
+Run tests
 
+```
+python setup.py test
+```
 DeprecationWarnings are suppressed at the moment. Still in works how to ignore 3rd party modules.
 
-python setup.py tests
 
 
 

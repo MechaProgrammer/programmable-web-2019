@@ -32,6 +32,7 @@ class WalletItem(Resource):
     @single_user.doc(description='Add money to users wallet')
     @single_user.expect(WalletModel.get_schema(single=True))
     @single_user.response(201, 'Created', headers={'Location': '/api/user/<user>/money/'})
+    @single_user.response(404, description='User not found', model=schema_404)
     @single_user.response(415, description='Unsupported media type', model=schema_415)
     def post(self, user: str):
         if not request.json:
