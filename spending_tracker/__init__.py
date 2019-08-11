@@ -11,7 +11,6 @@ def create_app():
     app = Flask("Spending-tracker")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///development.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config['SERVER_NAME'] = 'localhost:5000'
     db.init_app(app)
     return app
 
@@ -19,7 +18,7 @@ def create_app():
 blueprint = Blueprint('api', __name__, url_prefix="/api")
 api = Api(
     blueprint,
-    title='Money saving app',
+    title='Spending Tracker',
     version='0.1',
-    description='Save money by using this app!'
+    description='Track your spending with this app'
 )
