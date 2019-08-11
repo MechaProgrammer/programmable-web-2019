@@ -7,7 +7,8 @@ from spending_tracker.models.category import Category
 from spending_tracker import api
 
 
-category = Namespace(name='CategoryModel', description='WalletModel categories')
+category = Namespace(name='CategoryModel', description='Wallet categories')
+
 
 user_links = api.model('user links', {
     'self': fields.String(example='/api/users/<user>/'),
@@ -39,6 +40,7 @@ schema_400 = create_error_model(
 @category.route('/<string:user>/')
 class CategoryCollection(Resource):
     @category.expect(CategoryModel.get_schema(user=True), validate=True)
+    @category.response(201, description='Created', model=user_links)
     @category.response(404, description='Not found', model=schema_404)
     @category.response(400, description='Bad Request', model=schema_400)
     def post(self, user):
@@ -47,7 +49,7 @@ class CategoryCollection(Resource):
         return Response(status=resp)
 
     @category.response(200, description='Success', model=single_user_model)
-    @category.response(404, description='Not found', model=schema_400)
+    @category.response(404, description='Not found', model=schema_404)
     def get(self, user):
         user_categories = Category(user)
         resp = {'properties': user_categories.get_categories(), 'links': {

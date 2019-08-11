@@ -10,7 +10,9 @@ requirements = [
     'flask-restplus>=0.12.1',
     'flask_sqlalchemy>=2.4.0',
     'py-money==0.4.0',
-    'requests==2.22.0'
+    'requests==2.22.0',
+    'pytest>=5.0.1',
+    'pytest-cov>=2.7.1'
 ]
 
 
@@ -34,5 +36,7 @@ setuptools.setup(
             'tracker=spending_tracker.cli:run'
         ]
     },
+    tests_require=['pytest'],
+    setup_requires=['flake8', 'pytest-runner'],
     install_requires=requirements
 )

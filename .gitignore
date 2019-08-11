@@ -22,7 +22,7 @@ Spending_tracker_OTA.egg-info/
 # Packaging
 
 *.egg-info/
-
+.eggs/
 # Database
 
 development.db

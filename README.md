@@ -16,3 +16,13 @@ Dash web application for tracking persons weight loss/gain and correlative calor
 
 **Authors**
 Markus Heikkinen
+
+
+* Run Flake8 to check errors
+
+python setup.py flake8
+
+* Run tests
+
+pytest
+
