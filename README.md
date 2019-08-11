@@ -22,27 +22,37 @@ Spending Tracker
 **Authors**
 Markus H
 
-Instructions
-------------
 
 # Installation
 
-Make virtual environment
+### Project requires: 
 
-Windows
+- Python 3.x for pip installation
+
+### Make virtual environment
+
+#### Windows
 
 ```
 $ python -m pip venv tracker_venv
 ```
 
-Linux
+#### Linux
 
 ```
 $ virtualenv tracker_venv
 ```
 
 
-Install project from git
+### Install project from git
+
+#### Windows
+
+```
+$ python -m pip install git+https://github.com/Ruutimies/programmable-web-2019.git
+```
+
+#### Linux
 
 ```
 $ pip install git+https://github.com/Ruutimies/programmable-web-2019.git
