@@ -31,3 +31,4 @@ testfolder
 #tests
 
 .coverage
+htmlcov/
