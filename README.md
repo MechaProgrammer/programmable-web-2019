@@ -1,10 +1,18 @@
 # Programmable-Web-2019
 REST API project repository for the course Programmable Web Summer Course 2019
 
-# Initial idea
+# Overview
 
 A Python program to make a database to track users spending.
 User can manage database with Flask API.
+
+### What you can do:
+
+- Create different users
+
+- Create a wallet for the user and add money to it!
+
+- Add money to different spending categories in your wallet to follow your spending habits
 
 # Project
 
@@ -13,7 +21,6 @@ Spending Tracker
 
 **Authors**
 Markus H
-
 
 Instructions
 ------------
