@@ -1,4 +1,4 @@
-from spending_tracker import db
+from spending_tracker.cli import db
 from spending_tracker.db_models.db_models import WalletModel, UserModel
 from spending_tracker.utils.money_handler import money_add
 from spending_tracker.resources.errormodels import create_error_response

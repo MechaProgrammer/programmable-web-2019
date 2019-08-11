@@ -1,5 +1,5 @@
 from flask_restplus import fields
-from spending_tracker import api
+from spending_tracker.cli import api
 
 
 class SchemeBuilder(dict):

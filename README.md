@@ -24,6 +24,8 @@ python setup.py flake8
 
 * Run tests
 
+DeprecationWarnings are suppressed at the moment. Still in works how to ignore 3rd party modules.
+
 python setup.py tests
 
 

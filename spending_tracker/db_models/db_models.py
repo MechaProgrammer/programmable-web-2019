@@ -1,6 +1,5 @@
-from spending_tracker.cli import db
+from spending_tracker import db, api
 from flask_restplus import fields
-from spending_tracker import api
 
 
 user_category = db.Table(

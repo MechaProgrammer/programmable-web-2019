@@ -1,6 +1,6 @@
 from spending_tracker.db_models.db_models import UserModel
 from spending_tracker.resources.errormodels import create_error_response
-from spending_tracker import db
+from spending_tracker.cli import db
 
 
 class User:

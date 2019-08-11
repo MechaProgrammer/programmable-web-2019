@@ -2,10 +2,7 @@ import click
 from spending_tracker import api, blueprint, create_app, db
 
 
-@click.command()
-@click.option('--port', default=5000, help='Service port')
-@click.option('--debug', default=False, is_flag=True, help='App debug mode')
-def run(port, debug):
+def app_maker():
     app = create_app()
     with app.app_context():
         from spending_tracker.resources.usermodels import users
@@ -15,6 +12,13 @@ def run(port, debug):
         api.add_namespace(single_user, path='/user')
         api.add_namespace(category, path='/categories')
         app.register_blueprint(blueprint)
-        # app.app_context().push()
         db.create_all()
+    return app
+
+
+@click.command()
+@click.option('--port', default=5000, help='Service port')
+@click.option('--debug', default=False, is_flag=True, help='App debug mode')
+def run_client(port, debug):
+    app = app_maker()
     app.run(debug=debug, port=port)

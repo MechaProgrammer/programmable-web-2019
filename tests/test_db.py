@@ -14,7 +14,6 @@ def mock_db():
     db_fd, db_fname = tempfile.mkstemp()
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_fname
     app.config["TESTING"] = True
-    test_client = app.test_client()
 
     with app.app_context():
         db.create_all()
@@ -120,7 +119,6 @@ def test_category_exists(mock_db):
     mock_db.session.commit()
     db_user = UserModel.query.first()
     wallet_1 = _get_wallet(db_user.id)
-    wallet_2 = _get_wallet(db_user.id)
     mock_db.session.add(wallet_1)
     mock_db.session.commit()
 

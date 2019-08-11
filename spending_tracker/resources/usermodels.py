@@ -104,7 +104,7 @@ class UserCollection(Resource):
         return Response(
             status=201,
             mimetype=MIMETYPE,
-            headers={'self': f'{uri}'})
+            headers={'Location': f'{uri}'})
 
     @users.response(200, description='Success', model=all_users)
     def get(self):
@@ -118,6 +118,6 @@ class UserCollection(Resource):
                 "wallet": url_for('api.User_wallet_item', user=user.user),
                 "categories": url_for('api.CategoryModel_category_collection', user=user.user)
             }
-        return Response(json.dumps(users, indent=4), 200)
+        return Response(json.dumps(user_collection, indent=4), 200, mimetype=MIMETYPE)
 
 
