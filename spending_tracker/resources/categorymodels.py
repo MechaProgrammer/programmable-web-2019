@@ -7,7 +7,7 @@ from spending_tracker.models.category import Category
 from spending_tracker import api
 
 
-category = Namespace(name='CategoryModel', description='Wallet categories')
+category = Namespace(name='Categories', description='Wallet categories')
 
 
 user_links = api.model('user links', {
@@ -56,8 +56,8 @@ class CategoryCollection(Resource):
         user_categories = Category(user)
         resp = {'properties': user_categories.get_categories(), 'links': {
             'self': url_for('api.Users_user_resource', user=user),
-            'collection': url_for('api.CategoryModel_category_collection', user=user),
+            'collection': url_for('api.Categories_category_collection', user=user),
             'wallet': url_for('api.Wallet_wallet_item', user=user),
-            'categories': url_for('api.CategoryModel_category_collection', user=user)
+            'categories': url_for('api.Categories_category_collection', user=user)
         }}
         return Response(json.dumps(resp, indent=4))

@@ -53,7 +53,7 @@ class WalletItem(Resource):
         resp['properties'] = Wallet(user).balance()
         resp['links'] = {
             'self': url_for('api.Wallet_wallet_item', user=user),
-            'categories': url_for('api.CategoryModel_category_collection', user=user)
+            'categories': url_for('api.Categories_category_collection', user=user)
         }
         return Response(
             json.dumps(resp, indent=4), 200

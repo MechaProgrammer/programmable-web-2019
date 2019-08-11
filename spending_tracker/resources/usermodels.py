@@ -71,12 +71,13 @@ class UserResource(Resource):
             'self': url_for('api.Users_user_resource', user=user),
             'collection': url_for('api.Users_user_collection'),
             'wallet': url_for('api.Wallet_wallet_item', user=user),
-            'categories': url_for('api.CategoryModel_category_collection', user=user)
+            'categories': url_for('api.Categories_category_collection', user=user)
         }}
         return Response(json.dumps(resp), 200, mimetype=MIMETYPE)
 
     @users.doc(description='Delete user')
     @users.response(204, description='Deleted')
+    @users.response(404, description='Not found', model=schema_404)
     def delete(self, user):
         db_user = User()
         db_user.delete(user)
@@ -126,7 +127,7 @@ class UserCollection(Resource):
             user_collection['properties'][user.user] = {
                 "self": url_for('api.Users_user_resource', user=user.user),
                 "wallet": url_for('api.Wallet_wallet_item', user=user.user),
-                "categories": url_for('api.CategoryModel_category_collection', user=user.user)
+                "categories": url_for('api.Categories_category_collection', user=user.user)
             }
         return Response(json.dumps(user_collection, indent=4), 200, mimetype=MIMETYPE)
 
