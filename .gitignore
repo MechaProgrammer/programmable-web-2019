@@ -27,3 +27,7 @@ Spending_tracker_OTA.egg-info/
 
 development.db
 testfolder
+
+#tests
+
+.coverage

@@ -24,5 +24,7 @@ python setup.py flake8
 
 * Run tests
 
-pytest
+python setup.py tests
+
+
 
