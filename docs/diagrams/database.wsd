@@ -1,0 +1,12 @@
+@startuml
+actor User
+control API
+database Database
+
+User -> API: HTTP request
+API -> API: Handle request data - parse, clean, modify
+API -> Database: QUERY, ADD, DELETE, JOIN etc
+API <-- Database: id, items, errors
+API -> API: Handle request data - parse, clean, modify
+User <-- API: HTTP response
+@enduml
