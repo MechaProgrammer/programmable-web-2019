@@ -39,6 +39,7 @@ schema_400 = create_error_model(
 
 @category.route('/<string:user>/')
 class CategoryCollection(Resource):
+    @category.doc(description='Add spending categories')
     @category.expect(CategoryModel.get_schema(user=True), validate=True)
     @category.response(201, description='Created', model=user_links)
     @category.response(404, description='Not found', model=schema_404)
@@ -48,6 +49,7 @@ class CategoryCollection(Resource):
         resp = category_class.add_categories(request.json)
         return Response(status=resp)
 
+    @category.doc(description='Get spending categories')
     @category.response(200, description='Success', model=single_user_model)
     @category.response(404, description='Not found', model=schema_404)
     def get(self, user):
@@ -55,7 +57,7 @@ class CategoryCollection(Resource):
         resp = {'properties': user_categories.get_categories(), 'links': {
             'self': url_for('api.Users_user_resource', user=user),
             'collection': url_for('api.CategoryModel_category_collection', user=user),
-            'wallet': url_for('api.User_wallet_item', user=user),
+            'wallet': url_for('api.Wallet_wallet_item', user=user),
             'categories': url_for('api.CategoryModel_category_collection', user=user)
         }}
         return Response(json.dumps(resp, indent=4))

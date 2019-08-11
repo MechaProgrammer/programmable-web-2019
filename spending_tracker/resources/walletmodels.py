@@ -7,7 +7,7 @@ from spending_tracker.resources.errormodels import create_error_model, create_er
 from spending_tracker import api
 
 
-single_user = Namespace(name='User', description='Single user controls')
+single_user = Namespace(name='Wallet', description='Single user wallet')
 
 
 MIMETYPE = "application/json"
@@ -37,7 +37,7 @@ class WalletItem(Resource):
     def post(self, user: str):
         if not request.json:
             create_error_response(415, title='Unsupported media type', message='Requests must be JSON')
-        uri = url_for('api.User_wallet_item', user=user)
+        uri = url_for('api.Wallet_wallet_item', user=user)
         money = request.json['money']
         status = Wallet(user).add_money(money)
         return Response(
@@ -52,7 +52,7 @@ class WalletItem(Resource):
         resp = {}
         resp['properties'] = Wallet(user).balance()
         resp['links'] = {
-            'self': url_for('api.User_wallet_item', user=user),
+            'self': url_for('api.Wallet_wallet_item', user=user),
             'categories': url_for('api.CategoryModel_category_collection', user=user)
         }
         return Response(

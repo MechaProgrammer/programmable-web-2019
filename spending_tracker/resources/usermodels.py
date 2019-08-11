@@ -62,6 +62,7 @@ all_users = api.model('All users query', {
 @users.route('/<string:user>/')
 @users.param('user', 'Account user')
 class UserResource(Resource):
+    @users.doc(description='Get user info')
     @users.response(404, description='Not found', model=schema_404)
     @users.response(200, description='Success', model=single_user_model)
     def get(self, user):
@@ -69,14 +70,22 @@ class UserResource(Resource):
         resp = {'properties': user_collection.retrieve_user(user), 'links': {
             'self': url_for('api.Users_user_resource', user=user),
             'collection': url_for('api.Users_user_collection'),
-            'wallet': url_for('api.User_wallet_item', user=user),
+            'wallet': url_for('api.Wallet_wallet_item', user=user),
             'categories': url_for('api.CategoryModel_category_collection', user=user)
         }}
         return Response(json.dumps(resp), 200, mimetype=MIMETYPE)
 
+    @users.doc(description='Delete user')
+    @users.response(204, description='Deleted')
+    def delete(self, user):
+        db_user = User()
+        db_user.delete(user)
+        return 204
+
 
 @users.route('/')
 class UserCollection(Resource):
+    @users.doc(description='Add user')
     @users.response(201, 'Created', headers={'Location': '/api/users/<user>/'})
     @users.response(
         409,
@@ -106,6 +115,7 @@ class UserCollection(Resource):
             mimetype=MIMETYPE,
             headers={'Location': f'{uri}'})
 
+    @users.doc(description='Get all users')
     @users.response(200, description='Success', model=all_users)
     def get(self):
         user_collection = {
@@ -115,7 +125,7 @@ class UserCollection(Resource):
         for user in users_all:
             user_collection['properties'][user.user] = {
                 "self": url_for('api.Users_user_resource', user=user.user),
-                "wallet": url_for('api.User_wallet_item', user=user.user),
+                "wallet": url_for('api.Wallet_wallet_item', user=user.user),
                 "categories": url_for('api.CategoryModel_category_collection', user=user.user)
             }
         return Response(json.dumps(user_collection, indent=4), 200, mimetype=MIMETYPE)

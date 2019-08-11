@@ -37,12 +37,12 @@ class WalletModel(db.Model):
     def get_schema(single=False):
         if not single:
             wallet_model = api.model('Wallet', {
-                "user": fields.String(),
-                "money": fields.Integer()
+                "user": fields.String(description='User name', required=True),
+                "money": fields.Float(description='Money to wallet', required=True)
             })
         else:
             wallet_model = api.model('Wallet money', {
-                "money": fields.Integer()
+                "money": fields.Float(description='Money to wallet', required=True)
             })
         return wallet_model
 
@@ -72,12 +72,12 @@ class CategoryModel(db.Model):
         })
         if not user:
             user_model = api.model('Category user', {
-                'user': fields.String(example='Model user'),
+                'user': fields.String(example='Model user', required=True),
                 'categories': fields.Nested(category_model)
             })
         else:
             user_model = api.model('Category categories', {
-                'categories': fields.Nested(category_model)
+                'categories': fields.Nested(category_model, required=True)
             })
         return user_model
 
