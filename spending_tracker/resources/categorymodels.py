@@ -9,6 +9,7 @@ from spending_tracker import api
 
 category = Namespace(name='Categories', description='Wallet categories')
 
+MIMETYPE = "application/json"
 
 user_links = api.model('user links', {
     'self': fields.String(example='/api/users/<user>/'),
@@ -60,4 +61,4 @@ class CategoryCollection(Resource):
             'wallet': url_for('api.Wallet_wallet_item', user=user),
             'categories': url_for('api.Categories_category_collection', user=user)
         }}
-        return Response(json.dumps(resp, indent=4))
+        return Response(json.dumps(resp, indent=4), mimetype=MIMETYPE)

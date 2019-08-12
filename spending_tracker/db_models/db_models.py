@@ -14,7 +14,7 @@ class UserModel(db.Model):
     user = db.Column(db.String, unique=True, nullable=False)
     balance = db.Column(db.Float, nullable=False)
 
-    wallets = db.relationship("WalletModel", back_populates='user_model')
+    wallets = db.relationship("WalletModel", back_populates='user_model', cascade='delete, delete-orphan')
 
     @staticmethod
     def get_schema():
@@ -30,7 +30,9 @@ class WalletModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user_model.id"), unique=True)
     money = db.Column(db.Integer, nullable=False)
 
-    categories = db.relationship("CategoryModel", secondary='associnations', back_populates='wallet')
+    #categories = db.relationship("CategoryModel", secondary='associnations', back_populates='wallet')
+    categories = db.relationship("CategoryModel", cascade='delete, delete-orphan')
+
     user_model = db.relationship("UserModel", back_populates='wallets')
 
     @staticmethod
@@ -57,7 +59,8 @@ class CategoryModel(db.Model):
     bills = db.Column(db.Float, nullable=True)
     food = db.Column(db.Float, nullable=True)
 
-    wallet = db.relationship('WalletModel', secondary='associnations', back_populates="categories")
+   # wallet = db.relationship('WalletModel', secondary='associnations', back_populates="categories")
+    wallet = db.relationship('WalletModel')
 
 
     @staticmethod

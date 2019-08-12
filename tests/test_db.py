@@ -129,3 +129,22 @@ def test_category_exists(mock_db):
     mock_db.session.add(categories_2)
     with pytest.raises(IntegrityError):
         mock_db.session.commit()
+
+
+def test_delete_user(mock_db):
+    user = _get_user()
+    mock_db.session.add(user)
+    mock_db.session.commit()
+    db_user = UserModel.query.first()
+    wallet_1 = _get_wallet(db_user.id)
+    mock_db.session.add(wallet_1)
+    mock_db.session.commit()
+    db_wallet = WalletModel.query.first()
+    categories_1 = _get_categories(db_wallet.id)
+    mock_db.session.add(categories_1)
+    db_user = UserModel.query.first()
+    mock_db.session.delete(user)
+    mock_db.session.commit()
+    assert WalletModel.query.first() is None
+    assert CategoryModel.query.first() is None
+    assert UserModel.query.first() is None

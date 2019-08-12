@@ -27,7 +27,7 @@ Spending_tracker_OTA.egg-info/
 *.egg-info/
 .eggs/
 # Database
-
+spending_tracker.db
 development.db
 testfolder
 

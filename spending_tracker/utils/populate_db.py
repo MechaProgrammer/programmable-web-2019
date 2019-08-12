@@ -28,23 +28,27 @@ resp = requests.post(f'{url}/user/tester_2/money/', data=json.dumps({
 print(resp.content)
 
 resp = requests.post(f'{url}/categories/tester/', data=json.dumps({
-  "travel": 10,
-  "entertainment": 10,
-  "eating_out": 10,
-  "house": 10,
-  "bills": 10,
-  "food": 10
+    'categories': {
+      "travel": 10,
+      "entertainment": 10,
+      "eating_out": 10,
+      "house": 10,
+      "bills": 10,
+      "food": 10
+    }
 }), headers=headers)
 
 print(resp.content)
 
 resp = requests.post(f'{url}/categories/tester_2/', data=json.dumps({
-  "travel": 10123,
-  "entertainment": 1032,
-  "eating_out": 1021,
-  "house": 101,
-  "bills": 1023,
-  "food": 1032
+    'categories': {
+        "travel": 610,
+        "entertainment": 410,
+        "eating_out": 103,
+        "house": 106,
+        "bills": 104,
+        "food": 103
+    }
 }), headers=headers)
 
 print(resp.content)

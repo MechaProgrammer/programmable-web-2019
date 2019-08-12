@@ -8,9 +8,11 @@ def app_maker():
         from spending_tracker.resources.usermodels import users
         from spending_tracker.resources.categorymodels import category
         from spending_tracker.resources.walletmodels import single_user
-        api.add_namespace(users, path='/users')
-        api.add_namespace(single_user, path='/user')
-        api.add_namespace(category, path='/categories')
+        from spending_tracker.resources.entrypoint import entry_point
+        api.add_namespace(entry_point, path='/api')
+        api.add_namespace(users, path='/api/users')
+        api.add_namespace(single_user, path='/api/user')
+        api.add_namespace(category, path='/api/categories')
         app.register_blueprint(blueprint)
         db.create_all()
     return app
@@ -21,4 +23,11 @@ def app_maker():
 @click.option('--debug', default=False, is_flag=True, help='App debug mode')
 def run_client(port, debug):
     app = app_maker()
+    click.echo(
+        """
+            Spending tracker API is running.
+            Swagger documentation can be found on /api/doc
+        """
+    )
     app.run(debug=debug, port=port)
+
