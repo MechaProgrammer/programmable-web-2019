@@ -135,16 +135,21 @@ def test_delete_user(mock_db):
     user = _get_user()
     mock_db.session.add(user)
     mock_db.session.commit()
-    db_user = UserModel.query.first()
+
+    db_user = UserModel.query.filter_by(user=user.user).first()
     wallet_1 = _get_wallet(db_user.id)
     mock_db.session.add(wallet_1)
     mock_db.session.commit()
-    db_wallet = WalletModel.query.first()
+
+    db_wallet = WalletModel.query.filter_by(user_id=user.id).first()
     categories_1 = _get_categories(db_wallet.id)
     mock_db.session.add(categories_1)
-    db_user = UserModel.query.first()
-    mock_db.session.delete(user)
     mock_db.session.commit()
-    assert WalletModel.query.first() is None
-    assert CategoryModel.query.first() is None
-    assert UserModel.query.first() is None
+
+    db_user = UserModel.query.filter_by(user=user.user).first()
+    mock_db.session.delete(db_user)
+    mock_db.session.commit()
+
+    assert WalletModel.query.filter_by(user_id=user.user).first() is None
+    assert CategoryModel.query.filter_by(wallet_id=db_wallet.id).first() is None
+    assert UserModel.query.filter_by(user=user.user).first() is None
