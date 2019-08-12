@@ -47,17 +47,6 @@ class User:
         db_user = UserModel.query.filter_by(user=user).first()
         if db_user is None:
             return create_error_response(404, "Not found", f'User: {user} was not found')
-        # try:
-        #     db_user_wallet = WalletModel.query.filter_by(user_id=db_user.id).first()
-        #     db.session.delete(db_user_wallet)
-        # except Exception:
-        #     pass
-        # try:
-        #     db_user_categories = CategoryModel.query.filter_by(wallet_id=db_user_wallet.id).first()
-        #     db.session.delete(db_user_categories)
-        # except Exception:
-        #     pass
-
         db.session.delete(db_user)
         db.session.commit()
 
