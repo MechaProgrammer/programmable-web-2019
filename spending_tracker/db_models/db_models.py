@@ -10,6 +10,7 @@ user_category = db.Table(
 
 
 class UserModel(db.Model):
+    """Database model for user"""
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, unique=True, nullable=False)
     balance = db.Column(db.Float, nullable=False)
@@ -17,7 +18,8 @@ class UserModel(db.Model):
     wallets = db.relationship("WalletModel", back_populates='user_model', cascade='delete, delete-orphan')
 
     @staticmethod
-    def get_schema():
+    def get_schema() -> object:
+        """Schema for database User"""
         user_model = api.model('User', {
             'user': fields.String(example='model user', description='Username', required=True),
             'balance': fields.Float(example=133, description='Account balance in euros', required=True),
@@ -26,17 +28,24 @@ class UserModel(db.Model):
 
 
 class WalletModel(db.Model):
+    """Database model for wallet"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user_model.id"), unique=True)
     money = db.Column(db.Integer, nullable=False)
 
-    #categories = db.relationship("CategoryModel", secondary='associnations', back_populates='wallet')
     categories = db.relationship("CategoryModel", cascade='delete, delete-orphan')
 
     user_model = db.relationship("UserModel", back_populates='wallets')
 
     @staticmethod
-    def get_schema(single=False):
+    def get_schema(single=False) -> object:
+        """Schema for database Wallet
+
+        args:
+            single (bool): if True, returns only money
+        Returns:
+            object: Model object
+        """
         if not single:
             wallet_model = api.model('Wallet', {
                 "user": fields.String(description='User name', required=True),
@@ -50,6 +59,7 @@ class WalletModel(db.Model):
 
 
 class CategoryModel(db.Model):
+    """Database model for Category"""
     id = db.Column(db.Integer, primary_key=True)
     wallet_id = db.Column(db.Integer, db.ForeignKey("wallet_model.id"), unique=True)
     travel = db.Column(db.Float, nullable=True)
@@ -59,12 +69,18 @@ class CategoryModel(db.Model):
     bills = db.Column(db.Float, nullable=True)
     food = db.Column(db.Float, nullable=True)
 
-   # wallet = db.relationship('WalletModel', secondary='associnations', back_populates="categories")
     wallet = db.relationship('WalletModel')
 
 
     @staticmethod
-    def get_schema(user=False):
+    def get_schema(user=False) -> object:
+        """Schema for database Wallet
+
+        args:
+            user (bool): If True, user is not included in the model
+        Returns:
+            object: Model object
+        """
         category_model = api.model('Category', {
             'travel': fields.Float(example=10, description='Travel expenses'),
             'entertainment': fields.Float(example=10, description='Entertainment expenses'),

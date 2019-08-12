@@ -31,7 +31,7 @@ error_model = api.model(
 )
 
 
-def create_error_model(model_name, **kwargs):
+def create_error_model(model_name: str, **kwargs) -> object:
     modeli = {}
     for args in kwargs:
         modeli[args] = fields.String(example=kwargs[args])
