@@ -29,12 +29,14 @@ single_user_model = api.model('wallet control', {
 
 @single_user.route(f'/<string:user>/money/')
 class WalletItem(Resource):
+    """Wallet resource"""
     @single_user.doc(description='Add money to users wallet')
     @single_user.expect(WalletModel.get_schema(single=True))
     @single_user.response(201, 'Created', headers={'Location': '/api/user/<user>/money/'})
     @single_user.response(404, description='User not found', model=schema_404)
     @single_user.response(415, description='Unsupported media type', model=schema_415)
     def post(self, user: str):
+        """Add wallet to the user"""
         if not request.json:
             create_error_response(415, title='Unsupported media type', message='Requests must be JSON')
         uri = url_for('api.Wallet_wallet_item', user=user)
@@ -49,6 +51,7 @@ class WalletItem(Resource):
     @single_user.response(200, description='Success', model=single_user_model)
     @single_user.response(404, description='User not found', model=schema_404)
     def get(self, user: str):
+        """Query user wallet"""
         resp = {}
         resp['properties'] = Wallet(user).balance()
         resp['links'] = {

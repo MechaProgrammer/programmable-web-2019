@@ -8,7 +8,11 @@ class Wallet:
     def __init__(self, user):
         self.user = user
 
-    def add_money(self, money):
+    def add_money(self, money: float) -> int:
+        """Add money to db wallet
+        Returns:
+             int: 201 if successful
+        """
         db_user = UserModel.query.filter_by(user=self.user).first()
         if db_user is None:
             create_error_response(404, title='Not found', message=f'User {self.user} was not found')
@@ -26,7 +30,13 @@ class Wallet:
         db.session.commit()
         return 201
 
-    def balance(self):
+    def balance(self) -> dict:
+        """Query wallet balance from db
+
+        Returns:
+            dict: If process is successful
+            else return abort to API
+        """
         user_name = UserModel.query.filter_by(user=self.user).first()
         if user_name is None:
             create_error_response(404, title='Not found', message=f'User {user_name} was not found')

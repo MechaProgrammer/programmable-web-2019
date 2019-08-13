@@ -3,14 +3,25 @@ from spending_tracker.cli import api
 
 
 class SchemeBuilder(dict):
-    def add_control(self, ctrl_name, href, **kwargs):
+    def add_control(self, ctrl_name: str, href: str, **kwargs) -> None:
+        """Add control to schema dict"""
         if ctrl_name not in self:
             self[ctrl_name] = {}
         self[ctrl_name] = kwargs
         self[ctrl_name] = fields.Url(example=href)
 
 
-def schema_builder(model: object = None, ctrl_name=None, href=None):
+def schema_builder(model: object = None, ctrl_name=None, href=None) -> object:
+    """Api schema generator.
+    Builds properties based on db model schema
+    args:
+        model (object): db model object
+        ctrl_name (str): name of control
+        href (str): uri for control
+
+    Returns:
+        object: api model object
+    """
     name = str(model)
     asd = SchemeBuilder()
     asd.add_control(ctrl_name, href)

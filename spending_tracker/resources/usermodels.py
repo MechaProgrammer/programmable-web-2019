@@ -62,10 +62,12 @@ all_users = api.model('All users query', {
 @users.route('/<string:user>/')
 @users.param('user', 'Account user')
 class UserResource(Resource):
+    """User collection"""
     @users.doc(description='Get user info')
     @users.response(404, description='Not found', model=schema_404)
     @users.response(200, description='Success', model=single_user_model)
     def get(self, user):
+        """Query all users"""
         user_collection = User()
         resp = {'properties': user_collection.retrieve_user(user), 'links': {
             'self': url_for('api.Users_user_resource', user=user),
@@ -79,6 +81,7 @@ class UserResource(Resource):
     @users.response(204, description='Deleted')
     @users.response(404, description='Not found', model=schema_404)
     def delete(self, user):
+        """Delete user"""
         db_user = User()
         db_user.delete(user)
         return 204
@@ -86,6 +89,7 @@ class UserResource(Resource):
 
 @users.route('/')
 class UserCollection(Resource):
+    """User resource"""
     @users.doc(description='Add user')
     @users.response(201, 'Created', headers={'Location': '/api/users/<user>/'})
     @users.response(
@@ -101,6 +105,7 @@ class UserCollection(Resource):
     @users.response(415, description='Unsupported media type', model=schema_415)
     @users.expect(UserModel.get_schema(), validate=True)
     def post(self):
+        """Create user"""
         uri = url_for('api.Users_user_resource', user=request.json['user'])
         try:
             User().create(request.json)
@@ -119,6 +124,7 @@ class UserCollection(Resource):
     @users.doc(description='Get all users')
     @users.response(200, description='Success', model=all_users)
     def get(self):
+        """Query all users"""
         user_collection = {
             'properties': {}
         }

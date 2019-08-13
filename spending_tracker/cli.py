@@ -22,6 +22,7 @@ def app_maker():
 @click.option('--port', default=5000, help='Service port')
 @click.option('--debug', default=False, is_flag=True, help='App debug mode')
 def run_client(port, debug):
+    """Start flask client"""
     app = app_maker()
     click.echo(
         """

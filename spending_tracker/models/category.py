@@ -9,7 +9,12 @@ class Category:
     def __init__(self, user):
         self.user = user
 
-    def add_categories(self, categories):
+    def add_categories(self, categories: dict) -> int:
+        """Add categories to database.
+
+        Returns:
+            int: Status code 200 if success, else aborts
+        """
         db_user = UserModel.query.filter_by(user=self.user).first()
         if db_user is None:
             create_error_response(404, title='Not found', message=f'User {self.user} was not found')
@@ -31,7 +36,12 @@ class Category:
         db.session.commit()
         return 200
 
-    def get_categories(self):
+    def get_categories(self) -> dict:
+        """Query categories from db
+        Returns:
+            dict: Result dict
+            else returns error response to api
+        """
         db_user = UserModel.query.filter_by(user=self.user).first()
         if db_user is None:
             create_error_response(404, title='Not found', message=f'User {self.user} was not found')

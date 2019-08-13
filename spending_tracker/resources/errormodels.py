@@ -6,7 +6,10 @@ from flask_restplus import fields, abort
 MIMETYPE = "application/json"
 
 
-def create_error_response(status_code, title, message, url=None, **kwargs):
+def create_error_response(status_code: int, title: str, message: str, url=None, **kwargs) -> None:
+    """Create error response
+    Abort with given status code.
+    """
     if not url:
         resource_url = request.path
     else:
@@ -32,6 +35,7 @@ error_model = api.model(
 
 
 def create_error_model(model_name: str, **kwargs) -> object:
+    """Create error API model."""
     modeli = {}
     for args in kwargs:
         modeli[args] = fields.String(example=kwargs[args])

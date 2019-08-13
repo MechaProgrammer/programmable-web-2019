@@ -18,8 +18,10 @@ entry_point_model = api.model('Entry point', {
 @entry_point.route('/')
 @entry_point.doc(description='Get API entry points')
 class EntryPoint(Resource):
+    """API entry point"""
     @entry_point.response(200, description='Success', model=entry_point_model)
     def get(self):
+        """Get resource endpoints"""
         resp = {
             'users': url_for('api.Users_user_resource', user='user'),
             'wallet': url_for('api.Wallet_wallet_item', user='user'),

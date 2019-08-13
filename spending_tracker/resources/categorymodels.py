@@ -40,12 +40,14 @@ schema_400 = create_error_model(
 
 @category.route('/<string:user>/')
 class CategoryCollection(Resource):
+    """Categories inside the wallet"""
     @category.doc(description='Add spending categories')
     @category.expect(CategoryModel.get_schema(user=True), validate=True)
     @category.response(201, description='Created', model=user_links)
     @category.response(404, description='Not found', model=schema_404)
     @category.response(400, description='Bad Request', model=schema_400)
     def post(self, user):
+        """Create categories for wallet"""
         category_class = Category(user)
         resp = category_class.add_categories(request.json)
         return Response(status=resp)
@@ -54,6 +56,7 @@ class CategoryCollection(Resource):
     @category.response(200, description='Success', model=single_user_model)
     @category.response(404, description='Not found', model=schema_404)
     def get(self, user):
+        """Query wallet categories"""
         user_categories = Category(user)
         resp = {'properties': user_categories.get_categories(), 'links': {
             'self': url_for('api.Users_user_resource', user=user),
