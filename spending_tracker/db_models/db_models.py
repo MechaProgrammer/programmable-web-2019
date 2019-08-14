@@ -12,7 +12,7 @@ user_category = db.Table(
 class UserModel(db.Model):
     """Database model for user"""
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String, unique=True, nullable=False)
+    user = db.Column(db.String(32), unique=True, nullable=False)
 
     wallets = db.relationship("WalletModel", back_populates='user_model', cascade='delete, delete-orphan')
 
@@ -69,6 +69,8 @@ class CategoryModel(db.Model):
 
     wallet = db.relationship('WalletModel')
 
+    def __repr__(self):
+        return ['travel', 'entertainment', 'eating_out', 'house', 'bills', 'food']
 
     @staticmethod
     def get_schema(user=False) -> object:

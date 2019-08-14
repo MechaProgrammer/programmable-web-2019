@@ -36,6 +36,31 @@ class Category:
         db.session.commit()
         return 200
 
+    def change_category_values(self, categories: dict):
+        db_user = UserModel.query.filter_by(user=self.user).first()
+        if db_user is None:
+            create_error_response(404, title='Not found', message=f'User {self.user} was not found')
+        wallet_id = db_user.wallets[0].id
+        category_model = CategoryModel.query.filter_by(wallet_id=wallet_id).first()
+        if category_model is None:
+            create_error_response(404, title='Not found', message='Categories not found')
+        for k, v in categories['categories'].items():
+            if k in repr(category_model):
+                continue
+            else:
+                create_error_response(400, title='Bad Request', message=f'Category {k} does not exists')
+            try:
+                if v >= 0:
+                    setattr(category_model, k, money_add(getattr(category_model, k), v))
+                else:
+                    setattr(category_model, k, money_subtract(getattr(category_model, k), v))
+            except AttributeError:
+                create_error_response(400, title='Bad Request', message=f'Category {k} does not exists')
+
+        db.session.add(category_model)
+        db.session.commit()
+        return 200
+
     def get_categories(self) -> dict:
         """Query categories from db
         Returns:
@@ -53,7 +78,14 @@ class Category:
         if categories is not None:
             resp = dict(
                 user=db_user.user,
-                categories=dict(travel=categories.travel)
+                categories=dict(
+                    travel=categories.travel,
+                    entertainment=categories.entertainment,
+                    eating_out=categories.eating_out,
+                    house=categories.house,
+                    bills=categories.bills,
+                    food=categories.food
+                )
             )
             return resp
         else:
