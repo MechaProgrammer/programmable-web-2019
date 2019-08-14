@@ -1,0 +1,26 @@
+@startuml
+database Database
+client -> API: GET /api/
+API -> Database: query all users and collections
+API <-- Database: return all users and related uris
+client <-- API: response, all users or error message
+
+client -> API: POST /api/users/
+API -> API: validate
+API -> Database: Create User
+API <-- Database: User created
+client <-- API: response, created
+database Database
+
+client -> API: POST /api/user/model_user/money/
+API -> API: validate
+API -> Database: Create wallet
+API <-- Database: Wallet created
+client <-- API: response, created
+
+client -> API: POST /api/categories/model_user/
+API -> API: validate
+API -> Database: Create categories from payload
+Database <-- API: Categories created
+client <-- API: response, created
+@enduml
