@@ -1,12 +1,12 @@
 @startuml
-actor User
 control API
+control client
 database Database
 
-User -> API: HTTP request
-API -> API: Handle request data - parse, clean, modify
-API -> Database: QUERY, ADD, DELETE, JOIN etc
-API <-- Database: id, items, errors
-API -> API: Handle request data - parse, clean, modify
-User <-- API: HTTP response
+API -> client: HTTP request
+client -> client: Handle request data - parse, clean, modify
+client -> Database: QUERY, ADD, DELETE, JOIN ...
+client <-- Database: id, items, errors
+client -> client: Handle request data - parse, clean, modify
+API <-- client: HTTP response
 @enduml
