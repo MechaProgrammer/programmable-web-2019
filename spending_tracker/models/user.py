@@ -1,6 +1,8 @@
 from spending_tracker.db_models.db_models import UserModel, WalletModel, CategoryModel
 from spending_tracker.resources.errormodels import create_error_response
 from spending_tracker.cli import db
+from flask_restplus import abort
+from flask import url_for
 
 
 class User:
@@ -17,13 +19,19 @@ class User:
             create_error_response(404, "Not found", f'User: {user} was not found')
         resp = {
             'user': db_user.user,
-            'balance': db_user.balance,
         }
         return resp
 
     def retrive_all(self) -> list:
         """Query all users from the database"""
-        return UserModel.query.all()
+        try:
+            all_users = UserModel.query.all()
+            if not all_users:
+                create_error_response(404, "Users not found", f'There is no users in the database')
+            else:
+                return all_users
+        except Exception as e:
+            create_error_response(404, "Users not found", f'There is no users in the database')
 
     def create(self, payload: dict) -> None:
         """Create user
@@ -33,7 +41,6 @@ class User:
         """
         user = UserModel(
             user=payload['user'],
-            balance=payload['balance']
         )
         db.session.add(user)
         db.session.commit()

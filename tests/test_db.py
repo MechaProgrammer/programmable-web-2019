@@ -35,7 +35,6 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
 def _get_user():
     user = UserModel(
         user='tester',
-        balance=12
     )
     return user
 
@@ -64,7 +63,6 @@ def _get_categories(wallet_id):
 def test_create_user(mock_db):
     user = UserModel(
         user='tester',
-        balance=123
     )
     mock_db.session.add(user)
     mock_db.session.commit()

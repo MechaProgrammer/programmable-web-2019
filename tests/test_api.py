@@ -31,8 +31,8 @@ def test_client():
 
 
 def test_get_users(test_client):
-    u1 = UserModel(user='user_1', balance=12)
-    u2 = UserModel(user='user_2', balance=15)
+    u1 = UserModel(user='user_1')
+    u2 = UserModel(user='user_2')
     db.session.add(u1)
     db.session.add(u2)
     db.session.commit()
@@ -55,7 +55,7 @@ def test_get_users(test_client):
 
 
 def test_get_user(test_client):
-    u = UserModel(user='user', balance=12)
+    u = UserModel(user='user')
     db.session.add(u)
     db.session.commit()
     rv = test_client.get('/api/users/user/')
@@ -63,7 +63,6 @@ def test_get_user(test_client):
     assert rv.get_json() == {
       "properties": {
         "user": "user",
-        "balance": 12.0
       },
       "links": {
         "self": "/api/users/user/",
@@ -82,7 +81,6 @@ def test_get_user_fail(test_client):
 def test_post_user(test_client):
     user = {
         'user': 'tester',
-        'balance': 12.0
     }
     rv = test_client.post('/api/users/', json=user)
     assert rv.status_code == 201
@@ -90,7 +88,7 @@ def test_post_user(test_client):
 
 
 def test_user_add_money(test_client):
-    u = UserModel(user='tester', balance=12)
+    u = UserModel(user='tester')
     db.session.add(u)
     db.session.commit()
     payload = {'money': 123}

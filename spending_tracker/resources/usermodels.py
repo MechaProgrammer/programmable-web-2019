@@ -38,11 +38,10 @@ schema_200 = schema_builder(UserModel, 'self', '/api/users/<user>/')
 
 schema_404 = create_error_model(
     'Not found',
-    url='/api/users/<user>/',
+    url='string',
     error="Not found",
-    message='User: <user> was not found'
+    message='string'
 )
-
 
 user_info = api.model('User info', {
     'self': fields.String(example='/api/users/<user>/'),
@@ -123,6 +122,7 @@ class UserCollection(Resource):
 
     @users.doc(description='Get all users')
     @users.response(200, description='Success', model=all_users)
+    @users.response(404, description='Not found', model=schema_404)
     def get(self):
         """Query all users"""
         user_collection = {

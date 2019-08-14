@@ -13,7 +13,6 @@ class UserModel(db.Model):
     """Database model for user"""
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, unique=True, nullable=False)
-    balance = db.Column(db.Float, nullable=False)
 
     wallets = db.relationship("WalletModel", back_populates='user_model', cascade='delete, delete-orphan')
 
@@ -22,7 +21,6 @@ class UserModel(db.Model):
         """Schema for database User"""
         user_model = api.model('User', {
             'user': fields.String(example='model user', description='Username', required=True),
-            'balance': fields.Float(example=133, description='Account balance in euros', required=True),
         })
         return user_model
 
