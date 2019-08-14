@@ -46,3 +46,4 @@ def money_subtract(*args) -> float:
     return sub_objects(money_objs)
 
 
+print(money_subtract(-23, 4))

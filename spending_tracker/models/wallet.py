@@ -1,6 +1,6 @@
 from spending_tracker.cli import db
 from spending_tracker.db_models.db_models import WalletModel, UserModel
-from spending_tracker.utils.money_handler import money_add
+from spending_tracker.utils.money_handler import money_add, money_subtract
 from spending_tracker.resources.errormodels import create_error_response
 
 
@@ -8,7 +8,7 @@ class Wallet:
     def __init__(self, user):
         self.user = user
 
-    def add_money(self, money: float) -> int:
+    def add_money(self, money: float, subtract=False) -> int:
         """Add money to db wallet
         Returns:
              int: 201 if successful
@@ -17,10 +17,16 @@ class Wallet:
         if db_user is None:
             create_error_response(404, title='Not found', message=f'User {self.user} was not found')
         if db_user.wallets:
-            db_user.wallets[0].money = money_add(
-                db_user.wallets[0].money,
-                money
-            )
+            if not subtract:
+                db_user.wallets[0].money = money_add(
+                    db_user.wallets[0].money,
+                    money
+                )
+            else:
+                db_user.wallets[0].money = money_subtract(
+                    -db_user.wallets[0].money,
+                    money
+                )
         else:
             wallet_model = WalletModel(
                 user_id=db_user.id,
