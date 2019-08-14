@@ -70,6 +70,7 @@ class CategoryCollection(Resource):
     @category.expect(CategoryModel.get_schema(user=True), validate=True)
     @category.response(200, description='Success', model=single_user_model)
     @category.response(404, description='Not found', model=schema_404)
+    @category.response(400, description='Bad Request', model=schema_400)
     def put(self, user):
         category_class = Category(user)
         resp = category_class.add_categories(request.json)
