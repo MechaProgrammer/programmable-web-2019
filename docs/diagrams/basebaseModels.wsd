@@ -3,10 +3,9 @@ database "SQL" {
   object User {
 	id
 	user
-	balance
   }
   object Categories {
-	id
+    id
 	wallet_id
 	travel
 	entertainment
