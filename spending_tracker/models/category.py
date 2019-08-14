@@ -12,11 +12,9 @@ class Category:
     def validate_balance(self, user_id, categories):
         wallet = WalletModel.query.filter_by(user_id=user_id).first()
         balance = wallet.money
-        print(balance)
-        print(categories)
         total_spending = 0
         for k, v in categories['categories'].items():
-            total_spending += money_add(total_spending, v)
+            total_spending = money_add(total_spending, v)
         if balance < total_spending:
             create_error_response(
                 400, title='User does not have enough money', message=f'User {self.user} does no have enough money'
@@ -64,6 +62,10 @@ class Category:
         db_user = UserModel.query.filter_by(user=self.user).first()
         if db_user is None:
             create_error_response(404, title='Not found', message=f'User {self.user} was not found')
+
+        spending = self.validate_balance(db_user.id, categories)
+        self.subtract_balance(spending)
+
         wallet_id = db_user.wallets[0].id
         category_model = CategoryModel.query.filter_by(wallet_id=wallet_id).first()
         if category_model is None:
