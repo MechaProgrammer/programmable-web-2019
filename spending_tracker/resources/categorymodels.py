@@ -14,7 +14,7 @@ MIMETYPE = "application/json"
 user_links = api.model('user links', {
     'self': fields.String(example='/api/users/<user>/'),
     'collection': fields.String('/api/users/'),
-    'wallet': fields.String('/api/user/<user>/money/'),
+    'wallet': fields.String('/api/user/money/<user>/'),
     'categories': fields.String('/api/categories/<user>/')
 })
 

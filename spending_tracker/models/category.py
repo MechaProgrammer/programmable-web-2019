@@ -11,6 +11,8 @@ class Category:
 
     def validate_balance(self, user_id, categories):
         wallet = WalletModel.query.filter_by(user_id=user_id).first()
+        if wallet is None:
+            create_error_response(404, title='Not found', message=f'Wallet was not found')
         balance = wallet.money
         total_spending = 0
         for k, v in categories['categories'].items():

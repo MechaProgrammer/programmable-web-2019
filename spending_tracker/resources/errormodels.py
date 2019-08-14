@@ -4,6 +4,7 @@ from flask_restplus import fields, abort
 
 
 MIMETYPE = "application/json"
+headers = {'Content-type': 'application/json'}
 
 
 def create_error_response(status_code: int, title: str, message: str, url=None, **kwargs) -> None:
@@ -21,7 +22,7 @@ def create_error_response(status_code: int, title: str, message: str, url=None, 
     )
     for i in kwargs:
         resp[i] = kwargs[i]
-    abort(status_code, url=resource_url, error=title, message=message)
+    abort(status_code, url=resource_url, error=title, message=message, headers=headers)
 
 
 error_model = api.model(

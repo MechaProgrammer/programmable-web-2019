@@ -66,7 +66,7 @@ class UserResource(Resource):
     @users.response(404, description='Not found', model=schema_404)
     @users.response(200, description='Success', model=single_user_model)
     def get(self, user):
-        """Query all users"""
+        """Get user info"""
         user_collection = User()
         resp = {'properties': user_collection.retrieve_user(user), 'links': {
             'self': url_for('api.Users_user_resource', user=user),

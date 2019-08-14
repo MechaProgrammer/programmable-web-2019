@@ -42,12 +42,12 @@ def test_get_users(test_client):
       "properties": {
         "user_1": {
           "self": "/api/users/user_1/",
-          "wallet": "/api/user/user_1/money/",
+          "wallet": "/api/user/money/user_1/",
           "categories": "/api/categories/user_1/"
         },
         "user_2": {
           "self": "/api/users/user_2/",
-          "wallet": "/api/user/user_2/money/",
+          "wallet": "/api/user/money/user_2/",
           "categories": "/api/categories/user_2/"
         }
       }
@@ -67,7 +67,7 @@ def test_get_user(test_client):
       "links": {
         "self": "/api/users/user/",
         "collection": '/api/users/',
-        "wallet": "/api/user/user/money/",
+        "wallet": "/api/user/money/user/",
         "categories": "/api/categories/user/"
       }
     }
@@ -92,13 +92,13 @@ def test_user_add_money(test_client):
     db.session.add(u)
     db.session.commit()
     payload = {'money': 123}
-    rv = test_client.post('/api/user/tester/money/', json=payload)
+    rv = test_client.post('/api/user/money/tester/', json=payload)
     assert rv.status_code == 201
 
 
 def test_user_add_money_fail(test_client):
     payload = {'money': 123}
-    rv = test_client.post('/api/user/tester/money/', json=payload)
+    rv = test_client.post('/api/user/money/tester/', json=payload)
     assert rv.status_code == 404
 
 

@@ -13,7 +13,8 @@ requirements = [
     'requests==2.22.0',
     'pytest>=5.0.1',
     'pytest-cov>=2.7.1',
-    'pytest-mock>=1.10.4'
+    'pytest-mock>=1.10.4',
+    'pprint==0.1'
 ]
 
 

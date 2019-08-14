@@ -12,12 +12,12 @@ single_user = Namespace(name='Wallet', description='Single user wallet')
 
 MIMETYPE = "application/json"
 
-schema_415 = create_error_model('Unsupported media type wallet', url='/api/<user>/money/', error="Unsupported media type",
+schema_415 = create_error_model('Unsupported media type wallet', url='/api/money/<user>/', error="Unsupported media type",
                                 message="Requests must be JSON")
-schema_404 = create_error_model('Wallet not found', url='/api/<user>/money/', error="Not found", message='User: <user> was not found')
+schema_404 = create_error_model('Wallet not found', url='/api/money/<user>/', error="Not found", message='User: <user> was not found')
 
 user_links = api.model('wallet links', {
-    'self': fields.String(example='/api/users/<user>/money/'),
+    'self': fields.String(example='/api/users/money/<user>/'),
     'categories': fields.String('/api/categories/<user>/')
 })
 
@@ -27,12 +27,12 @@ single_user_model = api.model('wallet control', {
 })
 
 
-@single_user.route(f'/<string:user>/money/')
+@single_user.route(f'/money/<string:user>/')
 class WalletItem(Resource):
     """Wallet resource"""
     @single_user.doc(description='Add money to users wallet')
     @single_user.expect(WalletModel.get_schema(single=True))
-    @single_user.response(201, 'Created', headers={'Location': '/api/user/<user>/money/'})
+    @single_user.response(201, 'Created', headers={'Location': '/api/user/money/<user>/'})
     @single_user.response(404, description='User not found', model=schema_404)
     @single_user.response(415, description='Unsupported media type', model=schema_415)
     def post(self, user: str):
