@@ -65,7 +65,10 @@ def get_user_uris(user):
     """Use this only if the exists"""
     entry_point = api_get(f'{client_url}/api/').json()
     users_uri = client_url + entry_point['users'] + user + '/'
-    r = api_get(users_uri).json()
+    r = api_get(users_uri)
+    if r.status_code == 404:
+        return r.status_code
+    r = r.json()
     user_uri = client_url + r['links']['self']
     wallet_uri = client_url + r['links']['wallet']
     categories_uri = client_url + r['links']['categories']
@@ -173,7 +176,11 @@ def get_categories(user):
 
 
 def delete_user(user):
-    user_uri, wallet_uri, categories_uri = get_user_uris(user)
+    try:
+        user_uri, wallet_uri, categories_uri = get_user_uris(user)
+    except TypeError:
+        print('User does not exist')
+        sys.exit()
     r = api_delete(user_uri)
     if r.status_code == 404:
         print(f'Cant delete user - User {user} does not exist.')

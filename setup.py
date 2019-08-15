@@ -39,8 +39,7 @@ setuptools.setup(
             'add_categories=spending_tracker.GUI.app:create_categories',
             'create_user=spending_tracker.GUI.app:make_user',
             'query_users=spending_tracker.GUI.app:query_users',
-            'delete_user=spending_tracker.GUI.app:delete',
-            'tracker_help=spending_tracker.GUI.app:helper'
+            'delete_user=spending_tracker.GUI.app:delete'
         ]
     },
     tests_require=['pytest'],
