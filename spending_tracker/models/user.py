@@ -45,7 +45,7 @@ class User:
         db.session.add(user)
         db.session.commit()
 
-    def delete(self, user: str) -> None:
+    def delete(self, user: str):
         """Delete user and its items from the database
 
         args:
@@ -56,5 +56,5 @@ class User:
             return create_error_response(404, "Not found", f'User: {user} was not found')
         db.session.delete(db_user)
         db.session.commit()
-
+        return 204
 

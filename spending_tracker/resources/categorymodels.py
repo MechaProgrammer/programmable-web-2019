@@ -71,7 +71,7 @@ class CategoryCollection(Resource):
     @category.response(200, description='Success', model=single_user_model)
     @category.response(404, description='Not found', model=schema_404)
     @category.response(400, description='Bad Request', model=schema_400)
-    def put(self, user):
+    def patch(self, user):
         category_class = Category(user)
         resp = category_class.add_categories(request.json)
         return Response(json.dumps(resp, indent=4), mimetype=MIMETYPE)

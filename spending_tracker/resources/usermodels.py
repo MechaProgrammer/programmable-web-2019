@@ -82,8 +82,8 @@ class UserResource(Resource):
     def delete(self, user):
         """Delete user"""
         db_user = User()
-        db_user.delete(user)
-        return 204
+        status = db_user.delete(user)
+        return Response(status=status, mimetype=MIMETYPE)
 
 
 @users.route('/')

@@ -36,7 +36,7 @@ class WalletItem(Resource):
     @single_user.response(404, description='User not found', model=schema_404)
     @single_user.response(415, description='Unsupported media type', model=schema_415)
     def post(self, user: str):
-        """Add wallet to the user"""
+        """Add money to users wallet"""
         if not request.json:
             create_error_response(415, title='Unsupported media type', message='Requests must be JSON')
         uri = url_for('api.Wallet_wallet_item', user=user)

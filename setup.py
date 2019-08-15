@@ -35,7 +35,12 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'tracker=spending_tracker.cli:run_client'
+            'tracker=spending_tracker.cli:run_client',
+            'add_categories=spending_tracker.GUI.app:create_categories',
+            'create_user=spending_tracker.GUI.app:make_user',
+            'query_users=spending_tracker.GUI.app:query_users',
+            'delete_user=spending_tracker.GUI.app:delete',
+            'tracker_help=spending_tracker.GUI.app:helper'
         ]
     },
     tests_require=['pytest'],
