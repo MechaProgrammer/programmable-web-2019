@@ -72,6 +72,8 @@ python setup.py flake8
 
 Run tests
 
+To run tests you need to clone the repo.
+
 ```
 python setup.py test
 ```
