@@ -38,9 +38,9 @@ def api_get(url):
     return r
 
 
-def api_put(url, payload):
-    print(f'PUT - {url} - {payload}')
-    r = requests.put(
+def api_patch(url, payload):
+    print(f'PATCH - {url} - {payload}')
+    r = requests.patch(
         url=url,
         json=payload,
         headers=headers,
@@ -191,7 +191,7 @@ def delete_user(user):
 
 def add_categories(user, payload):
     user_uri, wallet_uri, categories_uri = get_user_uris(user)
-    r = api_put(categories_uri, payload)
+    r = api_patch(categories_uri, payload)
     if r.status_code == 404:
         print(f'Cant delete user - User {user} does not exist.')
         sys.exit()
