@@ -1,0 +1,14 @@
+@startuml
+User -> Client: -create_user -"test" -money=10
+Client -> API: GET /api/
+Client <-- API: Entry points
+Client --> Client: Parse user uri
+Client -> API: POST /api/users/
+Client <-- API: 201, created, user uri Location
+Client -> API: GET /api/user/test/
+Client <-- API: 200, user resource links
+Client -> Client: Parse user wallet uri
+Client -> API: POST /api/money/test/
+Client <-- API: 200, money added to wallet
+User <- Client: Ok, user created and money added
+@enduml

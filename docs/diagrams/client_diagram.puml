@@ -1,0 +1,12 @@
+@startuml
+User -> cmd: create user
+cmd -> make_user: Call make_user subfunction
+make_user --> make_user: Handle request data
+make_user -> subfunctions: Call API functions and handle responses
+cmd <- subfunctions: API response codes and uris
+make_user <-- subfunctions: API responses
+cmd <- subfunctions: API response codes and uris
+make_user --> make_user: Handle response data
+cmd <- make_user: Return confirm message
+User <-- cmd: Confirm message
+@enduml
