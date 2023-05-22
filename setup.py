@@ -10,7 +10,7 @@ requirements = [
     'flask-restplus>=0.12.1',
     'flask_sqlalchemy>=2.4.0',
     'py-money==0.4.0',
-    'requests==2.22.0',
+    'requests==2.31.0',
     'pytest>=5.0.1',
     'pytest-cov>=2.7.1',
     'pytest-mock>=1.10.4',
